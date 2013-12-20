@@ -16,8 +16,8 @@ def write_preamble(file,nodes,ppn,walltime):
    # minute). These can be overridden on the qsub command line.
    """))
    
-   file.write("#PBS -l nodes="+repr(nodes)+":ppn="+repr(ppn)+"\n")
-   file.write("#PBS -l walltime="+repr(walltime)+":00:00\n")
+   file.write("#PBS -l nodes="+repr(int(nodes))+":ppn="+repr(int(ppn))+"\n")
+   file.write("#PBS -l walltime="+repr(int(walltime))+":00:00\n")
 
    file.write(textwrap.dedent("""\
    # Change to directory from which job was submitted.
@@ -163,7 +163,7 @@ def uecadap(file, args):
    
    for c in range(0, copies):
       for snr in snrs:
-         f.write("matlab -nodisplay -nojvm -r \"cd $SRC; adaptive_uec_urc_d_ber( 'results_filename', '$RES/files"+type+"', 'int_len', '"+repr(bits)+"', 'max_type', 'max_star', 'start_snr', '"+repr(snr)+"', 'stop_snr', '"+repr(snr)+"', 'step_snr', '1', 'number_type', 'do', 'seed', '"+repr(random.randint(0,100000))+"', 'uec_exit_scaling', '"+uec_scaling+"', 'adaptive', '"+adap+"', 'channel', 'r')\"&\n")
+         f.write("matlab -nodisplay -nojvm -r \"cd $SRC; adaptive_uec_urc_d_ber( 'results_filename', '$RES/files"+type+"', 'int_len', '"+repr(int(bits))+"', 'max_type', 'max_star', 'start_snr', '"+repr(snr)+"', 'stop_snr', '"+repr(snr)+"', 'step_snr', '1', 'number_type', 'do', 'seed', '"+repr(random.randint(0,100000))+"', 'uec_exit_scaling', '"+uec_scaling+"', 'adaptive', '"+adap+"', 'channel', 'r')\"&\n")
       f.write("\n")
       
    f.write("\nwait\n")
