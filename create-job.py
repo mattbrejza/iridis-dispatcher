@@ -139,7 +139,7 @@ def uecadap(file, args):
    
    nodes = nodes * copies
    
-   mach = math.ceil(nodes/16)
+   mach = math.ceil(nodes/float(16))
    ppn = math.ceil(nodes/mach)
    
    #open file for writing
