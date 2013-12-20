@@ -3,6 +3,8 @@ import string
 import textwrap
 import math
 import numpy
+import time
+import random
 
 def write_preamble(file,nodes,ppn,walltime):
    file.write(textwrap.dedent("""\
@@ -94,6 +96,12 @@ def uecadap(file, args):
       print("Defaulting -wall to 36")
    else:
       wall = opt_dict['wall'] 
+      
+   if ('n' not in opt_dict.keys()):
+      name = time.strftime("%y%m%d-%H%M%S");
+      print("Defaulting -n (name) to "+name)
+   else:
+      name = opt_dict['n'] 
 
    if ('bits' not in opt_dict.keys()):
       bits = 1000;
@@ -138,7 +146,7 @@ def uecadap(file, args):
    f = open(file,'w')
    write_preamble(f,mach,ppn,wall)
    f.write("$SRC=\""+opt_dict['src']+"\"\n")
-   f.write("$RES=\""+opt_dict['res']+"\"\n")
+   f.write("$RES=\""+opt_dict['res']+"/"+name+"\"\n")
    f.write("mkdir $RES\n\n\n\n")
    
    uec_scaling = "-1"
@@ -155,7 +163,7 @@ def uecadap(file, args):
    
    for c in range(0, copies):
       for snr in snrs:
-         f.write("matlab -nodisplay -nojvm -r \"addpath $SRC; adaptive_uec_urc_d_ber( 'results_filename', '$RES/files"+type+"', 'int_len', '"+repr(bits)+"', 'max_type', 'max_star', 'start_snr', '"+repr(snr)+"', 'stop_snr', '"+repr(snr)+"', 'step_snr', '1', 'number_type', 'do', 'uec_exit_scaling', '"+uec_scaling+"', 'adaptive', '"+adap+"', 'channel', 'r')\"&\n")
+         f.write("matlab -nodisplay -nojvm -r \"cd $SRC; adaptive_uec_urc_d_ber( 'results_filename', '$RES/files"+type+"', 'int_len', '"+repr(bits)+"', 'max_type', 'max_star', 'start_snr', '"+repr(snr)+"', 'stop_snr', '"+repr(snr)+"', 'step_snr', '1', 'number_type', 'do', 'seed', '"+repr(random.randint(0,100000))+"', 'uec_exit_scaling', '"+uec_scaling+"', 'adaptive', '"+adap+"', 'channel', 'r')\"&\n")
       f.write("\n")
       
    f.write("\nwait\n")
