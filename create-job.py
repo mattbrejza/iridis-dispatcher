@@ -149,7 +149,7 @@ def uecadap(file, args):
    f = open(file,'w')
    write_preamble(f,mach,ppn,wall)
    f.write("SRC=\""+opt_dict['src']+"\"\n")
-   f.write("RES=\""+opt_dict['res']+"/"+name+"\"\n")
+   f.write("RES=$PBS_O_WORKDIR/\""+opt_dict['res']+"/"+name+"\"\n")
    f.write("mkdir -p $RES\n\n\n\n")
    
    uec_scaling = "-1"
@@ -176,6 +176,118 @@ def uecadap(file, args):
 def uecadapref():
 
    print("creating job file for uec adaptive job reference code")
+
+   
+   #look for options like -startsnr, -stopsnr etc
+   opt_dict = getoptions(args)
+   
+   die=0
+   
+   if ('snrs' not in opt_dict.keys()):   
+      if ('startsnr' not in opt_dict.keys()):
+         die=1
+         print("Requires option -startsnr")     
+      if ('stopsnr' not in opt_dict.keys()):
+         die=1
+         print("Requires option -stopsnr")      
+      if ('stepsnr' not in opt_dict.keys()):
+         die=1
+         print("Requires option -stepsnr")
+         
+      startsnr = float(opt_dict['startsnr'])
+      stopsnr = float(opt_dict['stopsnr'])
+      stepsnr = float(opt_dict['stepsnr'])
+      snrs = numpy.arange(startsnr, stopsnr+0.0002, stepsnr)
+      
+   else:
+      snrs_s = opt_dict['snrs']
+      snrs_s=snrs_s.split(",")
+      snrs = [float(s) for s in snrs_s]
+         
+   print("List of SNRs:")
+   print (snrs)
+   print ("\n\n")
+   
+   if ('copies' not in opt_dict.keys()):
+      copies = 1;
+      print("Defaulting -copies to 1")
+   else:
+      copies = int(opt_dict['copies'])
+      
+   if ('wall' not in opt_dict.keys()):
+      wall = 36;
+      print("Defaulting -wall to 36")
+   else:
+      wall = opt_dict['wall'] 
+      
+   if ('n' not in opt_dict.keys()):
+      name = time.strftime("%y%m%d-%H%M%S");
+      print("Defaulting -n (name) to "+name)
+   else:
+      name = opt_dict['n'] 
+
+   if ('symbols' not in opt_dict.keys()):
+      symbols = 666;
+      print("Defaulting -symbols to 1000")
+   else:
+      symbols = float(opt_dict['symbols'])   
+
+   if ('type' not in opt_dict.keys()):
+      die=1
+      print("Requires option -type. Choose either ET,EUT,UT2")      
+      
+   if ('src' not in opt_dict.keys()):
+      die=1
+      print("Requires option -src")
+      
+   if ('res' not in opt_dict.keys()):
+      die=1
+      print("Requires option -res")
+      
+      
+   if die>0:
+      print("Quiting...")
+      return
+      
+
+      
+   #total nodes
+   nodes = len(snrs)
+   if nodes < 1 or copies < 1:
+      print("Invalid combination of snr start/stop/step / copies")
+      print("Quiting...")
+      return
+   
+   nodes = nodes * copies
+   
+   mach = math.ceil(nodes/float(16))
+   ppn = math.ceil(nodes/mach)
+   
+   #open file for writing
+   f = open(file,'w')
+   write_preamble(f,mach,ppn,wall)
+   f.write("SRC=\""+opt_dict['src']+"/ref-wenbo/main/Iridis_Jobs/ser/\"\n")
+   f.write("RES=$PBS_O_WORKDIR/\""+opt_dict['res']+"/"+name+"\"\n")
+   f.write("mkdir -p $RES\n\n\n\n")
+   
+
+   if type.lower() == "et":
+      cmmd = "main_ET_ser_Iridis"
+   elif type.lower() == "eut":
+      cmmd = "main_EUT_ser_Iridis"
+   elif type.lower() == "ut2":
+      cmmd = "main_UT2_ser_Iridis"
+   else:
+      print("Invalid -type option. Choose either ET,EUT,UT2")
+   
+   for c in range(0, copies):
+      for snr in snrs:
+         f.write("matlab -nodisplay -nojvm -r \"cd $SRC; "+cmmd+"  "+repr(snr)+" "+repr(int(symbols))+" 1 '$RES/res_"+type+"'\"&\n")
+      f.write("\n")
+      
+   f.write("\nwait\n")
+   
+   f.close()  
 
 
 #main entry point
