@@ -187,7 +187,7 @@ try:
              
    options[sys.argv[2]](sys.argv[1],sys.argv[3:])
 
-except KeyError:
+except:
    print("Usage: \n\n")
    print("\tcreate-job.py job_out run_type <specific options>\n\n")
    print("\trun_type options: \n\t\tuec-adaptive\tuec-adaptive-ref\n")
