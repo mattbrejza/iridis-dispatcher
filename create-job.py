@@ -24,6 +24,7 @@ def write_preamble(file,nodes,ppn,walltime):
    cd $PBS_O_WORKDIR
    
    module load matlab/2013a
+   module load matlab/2011a
 
    """))
 
