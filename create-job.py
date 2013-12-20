@@ -150,7 +150,7 @@ def uecadap(file, args):
    write_preamble(f,mach,ppn,wall)
    f.write("SRC=\""+opt_dict['src']+"\"\n")
    f.write("RES=\""+opt_dict['res']+"/"+name+"\"\n")
-   f.write("mkdir $RES\n\n\n\n")
+   f.write("mkdir -p $RES\n\n\n\n")
    
    uec_scaling = "-1"
    if type == "non":
