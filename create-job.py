@@ -74,18 +74,22 @@ def uecadap(file, args):
          die=1
          print("Requires option -stepsnr")
          
-      startsnr = float(opt_dict['startsnr'])
-      stopsnr = float(opt_dict['stopsnr'])
-      stepsnr = float(opt_dict['stepsnr'])
-      snrs = numpy.arange(startsnr, stopsnr+0.0002, stepsnr)
+      if die==0:
+         startsnr = float(opt_dict['startsnr'])
+         stopsnr = float(opt_dict['stopsnr'])
+         stepsnr = float(opt_dict['stepsnr'])
+         snrs = numpy.arange(startsnr, stopsnr+0.0002, stepsnr)
+         print("List of SNRs:")
+         print (snrs)
       
    else:
       snrs_s = opt_dict['snrs']
       snrs_s=snrs_s.split(",")
       snrs = [float(s) for s in snrs_s]
-         
-   print("List of SNRs:")
-   print (snrs)
+      print("List of SNRs:")
+      print (snrs)
+ 
+   
    print ("\n\n")
    
    if ('copies' not in opt_dict.keys()):
@@ -173,7 +177,7 @@ def uecadap(file, args):
    
    f.close()  
    
-def uecadapref():
+def uecadapref(file, args):
 
    print("creating job file for uec adaptive job reference code")
 
@@ -193,19 +197,23 @@ def uecadapref():
       if ('stepsnr' not in opt_dict.keys()):
          die=1
          print("Requires option -stepsnr")
-         
-      startsnr = float(opt_dict['startsnr'])
-      stopsnr = float(opt_dict['stopsnr'])
-      stepsnr = float(opt_dict['stepsnr'])
-      snrs = numpy.arange(startsnr, stopsnr+0.0002, stepsnr)
+      
+      if die==0:
+         startsnr = float(opt_dict['startsnr'])
+         stopsnr = float(opt_dict['stopsnr'])
+         stepsnr = float(opt_dict['stepsnr'])
+         snrs = numpy.arange(startsnr, stopsnr+0.0002, stepsnr)
+         print("List of SNRs:")
+         print (snrs)
       
    else:
       snrs_s = opt_dict['snrs']
       snrs_s=snrs_s.split(",")
       snrs = [float(s) for s in snrs_s]
+      print("List of SNRs:")
+      print (snrs)
          
-   print("List of SNRs:")
-   print (snrs)
+   
    print ("\n\n")
    
    if ('copies' not in opt_dict.keys()):
@@ -228,7 +236,7 @@ def uecadapref():
 
    if ('symbols' not in opt_dict.keys()):
       symbols = 666;
-      print("Defaulting -symbols to 1000")
+      print("Defaulting -symbols to 666")
    else:
       symbols = float(opt_dict['symbols'])   
 
@@ -270,7 +278,7 @@ def uecadapref():
    f.write("RES=$PBS_O_WORKDIR/\""+opt_dict['res']+"/"+name+"\"\n")
    f.write("mkdir -p $RES\n\n\n\n")
    
-
+   type = opt_dict['type'] 
    if type.lower() == "et":
       cmmd = "main_ET_ser_Iridis"
    elif type.lower() == "eut":
@@ -302,7 +310,7 @@ try:
              
    options[sys.argv[2]](sys.argv[1],sys.argv[3:])
 
-except:
+except IndexError:
    print("Usage: \n\n")
    print("\tcreate-job.py job_out run_type <specific options>\n\n")
    print("\trun_type options: \n\t\tuec-adaptive\tuec-adaptive-ref\n")
