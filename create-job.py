@@ -22,6 +22,8 @@ def write_preamble(file,nodes,ppn,walltime):
    file.write(textwrap.dedent("""\
    # Change to directory from which job was submitted.
    cd $PBS_O_WORKDIR
+   
+   module load matlab/2013a
 
    """))
 
@@ -145,8 +147,8 @@ def uecadap(file, args):
    #open file for writing
    f = open(file,'w')
    write_preamble(f,mach,ppn,wall)
-   f.write("$SRC=\""+opt_dict['src']+"\"\n")
-   f.write("$RES=\""+opt_dict['res']+"/"+name+"\"\n")
+   f.write("SRC=\""+opt_dict['src']+"\"\n")
+   f.write("RES=\""+opt_dict['res']+"/"+name+"\"\n")
    f.write("mkdir $RES\n\n\n\n")
    
    uec_scaling = "-1"
