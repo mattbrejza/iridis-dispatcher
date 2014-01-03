@@ -8,6 +8,7 @@ import random
 import glob
 import os
 import json
+import errno
 
 #looks in a results folder that will contain a whole load of run_name_seed.json files about the same simulation
 #collates these results into a single run_name.json
@@ -16,7 +17,15 @@ import json
 def print_usage():
 
    print("Usage: \n\n")
-   print("\tcollate.py run_name -r results_folder \n\n")
+   print("\tcollate.py run_name -r results_folder -o output_folder \n\n")
+   
+def mkdir_p(path):
+    try:
+        os.makedirs(path)
+    except OSError as exc: # Python >2.5
+        if exc.errno == errno.EEXIST and os.path.isdir(path):
+            pass
+        else: raise
    
 def getoptions(args):
    
@@ -44,7 +53,7 @@ def getoptions(args):
    return dict
 
 
-if len(sys.argv) < 4:
+if len(sys.argv) < 6:
    print_usage()
    exit()
    
@@ -56,8 +65,14 @@ if ('r' not in args.keys()):
    print(":(")
    exit()
    
+if ('o' not in args.keys()):
+   print_usage()
+   print(":(")
+   exit()
+   
 run_name = sys.argv[1]
 res_path = args['r']+ "/" + run_name
+out_path = args['o']+ "/" + run_name
 
 out_suffix = "totals"
 
@@ -159,7 +174,10 @@ while len(file_list) > 0:
 print("\n\n\n\n\n")
 print(out_list)
 
-
+mkdir_p(out_path)
+f = open(out_path+"/results.json",'w')
+f.write(json.dumps(out_list))
+f.close()
 
 
 
