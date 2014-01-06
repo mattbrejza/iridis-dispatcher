@@ -113,7 +113,7 @@ if ('snr' in res[0].keys()) and ('total_bits' in res[0].keys()) and ('total_bit_
    set format y '10^{%L}'
    set yrange[0.00001:1]
    """))
-   f.write("set output '"+args['o']+ "/" + run_name+"/ber.png\n")
+   f.write("set output '"+args['o']+ "/" + run_name+"/ber.png'\n")
    f.write("set xrange["+repr(minsnr)+":"+repr(maxsnr)+"]\n\n")
    f.write("plot '"+args['o']+ "/" + run_name+"/ber_gnuplot.dat' using ($1-10*log10(1)):($2==0 ? NaN : $2/$3) with line ls 1 notitle")
 
@@ -150,7 +150,7 @@ if ('snr' in res[0].keys()) and ('total_symbols' in res[0].keys()) and ('total_s
    set format y '10^{%L}'
    set yrange[0.00001:1]
    """))
-   f.write("set output '"+args['o']+ "/" + run_name+"/ser.png\n")
+   f.write("set output '"+args['o']+ "/" + run_name+"/ser.png'\n")
    f.write("set xrange["+repr(minsnr)+":"+repr(maxsnr)+"]\n\n")
    f.write("plot '"+args['o']+ "/" + run_name+"/ser_gnuplot.dat' using ($1-10*log10(1)):($2==0 ? NaN : $2/$3) with line ls 1 notitle")
 

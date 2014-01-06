@@ -186,7 +186,7 @@ for run_name in run_names:
          item = data.pop()
 
    print("\n\n\n\n\n")
-   print(out_list)
+
 
    mkdir_p(out_path)
    f = open(out_path+"/results.json",'w')
