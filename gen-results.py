@@ -91,15 +91,16 @@ if ('snr' in res[0].keys()) and ('total_bits' in res[0].keys()) and ('total_bit_
    dat_file = args['o']+ "/" + run_name + "/ber_gnuplot.dat" 
    f=open(dat_file,"w")
    f.write("#dat file for ber plot\n")
-   maxsnr = -1000;
-   minsnr = 1000;
+   
+   snrs = {}
    for i in range(0,len(res)):
-      f.write(repr(res[i]['snr']) + "\t" + repr(res[i]['total_bit_errors']) + "\t" + repr(res[i]['total_bits'])+"\n")
-      if float(res[i]['snr']) < minsnr:
-         minsnr = float(res[i]['snr'])
-      if float(res[i]['snr']) > maxsnr:
-         maxsnr = float(res[i]['snr'])
+      snrs[res[i]['snr']]=i
+   for i in sorted(snrs):
+      f.write(repr(res[snrs[i]]['snr']) + "\t" + repr(res[snrs[i]]['total_bit_errors']) + "\t" + repr(res[snrs[i]]['total_bits'])+"\n")
    f.close()
+   
+   maxsnr = sorted(snrs)[len(snrs)-1];
+   minsnr = sorted(snrs)[0];
    
    f=open(args['o']+ "/" + run_name + "/ber_gnuplot.gp" ,"w")
    #generate the gnuplot script
