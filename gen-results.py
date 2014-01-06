@@ -158,6 +158,6 @@ if ('snr' in res[0].keys()) and ('total_symbols' in res[0].keys()) and ('total_s
    #run gnuplot
    system("gnuplot "+args['o']+ "/" + run_name + "/ser_gnuplot.gp")
 
-if ('scp' not in args.keys()):
-   system("rsync -rave ssh " + args['o']+ "/" + run_name +"/*.png ftp:public_html/results/" run_name)
+if ('scp' in args.keys()):
+   system("rsync -rave ssh " + args['o']+ "/" + run_name +"/*.png ftp:public_html/results/" + run_name)
    system("ssh ftp \"chmod go+r ~/public_html/results -R\"")
