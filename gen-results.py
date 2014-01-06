@@ -120,3 +120,40 @@ if ('snr' in res[0].keys()) and ('total_bits' in res[0].keys()) and ('total_bit_
    f.close()
    #run gnuplot
    system("gnuplot "+args['o']+ "/" + run_name + "/ber_gnuplot.gp")
+
+if ('snr' in res[0].keys()) and ('total_symbols' in res[0].keys()) and ('total_symbol_errors' in res[0].keys()):
+   print("generating ser graph")
+   
+   #write .dat with all the data
+   dat_file = args['o']+ "/" + run_name + "/ser_gnuplot.dat" 
+   f=open(dat_file,"w")
+   f.write("#dat file for ser plot\n")
+   
+   snrs = {}
+   for i in range(0,len(res)):
+      snrs[res[i]['snr']]=i
+   for i in sorted(snrs):
+      f.write(repr(res[snrs[i]]['snr']) + "\t" + repr(res[snrs[i]]['total_symbol_errors']) + "\t" + repr(res[snrs[i]]['total_symbols'])+"\n")
+   f.close()
+   
+   maxsnr = sorted(snrs)[len(snrs)-1];
+   minsnr = sorted(snrs)[0];
+   
+   f=open(args['o']+ "/" + run_name + "/ser_gnuplot.gp" ,"w")
+   #generate the gnuplot script
+   f.write(textwrap.dedent("""\
+   set terminal png
+   set termoptions enhanced
+   set xlabel 'SNR (dB)'
+   set ylabel 'SER'
+   set logscale y
+   set format y '10^{%L}'
+   set yrange[0.00001:1]
+   """))
+   f.write("set output '"+args['o']+ "/" + run_name+"/ser.png\n")
+   f.write("set xrange["+repr(minsnr)+":"+repr(maxsnr)+"]\n\n")
+   f.write("plot '"+args['o']+ "/" + run_name+"/ser_gnuplot.dat' using ($1-10*log10(1)):($2==0 ? NaN : $2/$3) with line ls 1 notitle")
+
+   f.close()
+   #run gnuplot
+   system("gnuplot "+args['o']+ "/" + run_name + "/ser_gnuplot.gp")
