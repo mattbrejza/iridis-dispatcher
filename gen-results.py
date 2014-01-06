@@ -158,6 +158,50 @@ if ('snr' in res[0].keys()) and ('total_symbols' in res[0].keys()) and ('total_s
    #run gnuplot
    system("gnuplot "+args['o']+ "/" + run_name + "/ser_gnuplot.gp")
 
+if ('snr' in res[0].keys()) and ('combined_complexity' in res[0].keys()) and ('combined_complexity_step' in res[0].keys()) and ('total_symbol_errors' in res[0].keys()):
+   print("generating cc graph")
+   
+   #write .dat with all the data
+   dat_file = args['o']+ "/" + run_name + "/cc_ser_gnuplot.dat" 
+   f=open(dat_file,"w")
+   f.write("#combined_complexity_step:"+repr(res[snrs[i]]['combined_complexity_step']))
+   f.write("\n#dat file for ser complexity limit plot\n")
+   
+   snrs = {}
+   for i in range(0,len(res)):
+      snrs[res[i]['snr']]=i
+   for i in sorted(snrs):
+      f.write(repr(res[snrs[i]]['snr']) + "\t" + repr(res[snrs[i]]['total_symbol_errors']) + "\t")
+      l=(res[snrs[i]]['combined_complexity'])
+      for j in l:
+         f.write(repr(j)+"\t")
+      f.write("\n")
+   f.close()
+   
+   maxsnr = sorted(snrs)[len(snrs)-1];
+   minsnr = sorted(snrs)[0];
+   
+   f=open(args['o']+ "/" + run_name + "/cc_ser_gnuplot.gp" ,"w")
+   #generate the gnuplot script
+   f.write("b=" + repr(res[snrs[i]]['combined_complexity_step']))
+   f.write("\nin=1\n\n")
+   f.write(textwrap.dedent("""\
+   set terminal png
+   set termoptions enhanced
+   set xlabel 'SNR (dB)'
+   set ylabel 'SER'
+   set logscale y
+   set format y '10^{%L}'
+   set yrange[0.00001:1]
+   """))
+   f.write("set output '"+args['o']+ "/" + run_name+"/cc_ser.png'\n")
+   f.write("set xrange["+repr(minsnr)+":"+repr(maxsnr)+"]\n\n")
+   f.write("plot '"+args['o']+ "/" + run_name+"/cc_ser_gnuplot.dat' using ($1-10*log10(1)):(column(in+2)==0 ? NaN : column(in+2)/$2) with line ls 1 title 'Complexity Limit: '.in*b")
+
+   f.close()
+   #run gnuplot
+   system("gnuplot "+args['o']+ "/" + run_name + "/cc_ser_gnuplot.gp")
+   
 if ('scp' in args.keys()):
    system("rsync -rave ssh " + args['o']+ "/" + run_name +"/*.png ftp:public_html/results/" + run_name)
    system("ssh ftp \"chmod go+r ~/public_html/results -R\"")
