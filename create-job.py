@@ -275,7 +275,7 @@ def uecadapref(file, args):
    f = open(file,'w')
    write_preamble(f,mach,ppn,wall)
    f.write("SRC=\""+opt_dict['src']+"/ref-wenbo/main/Iridis_Jobs/ser/\"\n")
-   f.write("RES=$PBS_O_WORKDIR/\""+opt_dict['res']+"/"+name+"\"\n")
+   f.write("RES=$PBS_O_WORKDIR/\""+opt_dict['res']+"/"+name+"/\"\n")
    f.write("mkdir -p $RES\n\n\n\n")
    
    type = opt_dict['type'] 
