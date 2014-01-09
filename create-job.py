@@ -98,6 +98,12 @@ def uecadap(file, args):
    else:
       copies = int(opt_dict['copies'])
       
+   if ('eq' not in opt_dict.keys()):
+      eq = 0;
+      print("Defaulting -eq (exit-quantisation) to 0")
+   else:
+      eq = int(opt_dict['eq'])
+      
    if ('wall' not in opt_dict.keys()):
       wall = 36;
       print("Defaulting -wall to 36")
@@ -170,7 +176,7 @@ def uecadap(file, args):
    
    for c in range(0, copies):
       for snr in snrs:
-         f.write("matlab -nodisplay -nojvm -r \"cd $SRC; adaptive_uec_urc_d_ber( 'results_filename', '$RES/files"+type+"', 'int_len', '"+repr(int(bits))+"', 'max_type', 'max_star', 'start_snr', '"+repr(snr)+"', 'stop_snr', '"+repr(snr)+"', 'step_snr', '1', 'number_type', 'do', 'seed', '"+repr(random.randint(0,100000))+"', 'uec_exit_scaling', '"+uec_scaling+"', 'adaptive', '"+adap+"', 'channel', 'r')\"&\n")
+         f.write("matlab -nodisplay -nojvm -r \"cd $SRC; adaptive_uec_urc_d_ber( 'results_filename', '$RES/files"+type+"', 'int_len', '"+repr(int(bits))+"', 'max_type', 'max_star', 'start_snr', '"+repr(snr)+"', 'stop_snr', '"+repr(snr)+"', 'step_snr', '1', 'number_type', 'do', 'seed', '"+repr(random.randint(0,100000))+"', 'uec_exit_scaling', '"+uec_scaling+"', 'adaptive', '"+adap+"', 'channel', 'r', 'exit_quant', '"+repr(eq)+"')\"&\n")
       f.write("\n")
       
    f.write("\nwait\n")
