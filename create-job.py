@@ -291,13 +291,13 @@ def uecimpl(file, args):
    f.write("cd $SRC\n")
    f.write("mcc -vm run_exit_ber.m *.m\n")
    f.write("cd $PBS_O_WORKDIR\n")
-   f.write("COMMON=\"modulation qpsk start_snr 1.6 stop_snr 3 step_snr 0.2 pivi 0 int1 srandn int2 srandn stopping_mi 2 minimum_tx_bits 1000000000 enable_trellis_block 1 trellis_knows_first 1 use_trellis_iter 1\"")
+   f.write("COMMON=\"modulation qpsk start_snr 1.6 stop_snr 3 step_snr 0.2 pivi 0 int1 srandn int2 srandn stopping_mi 2 minimum_tx_bits 1000000000 enable_trellis_block 1 trellis_knows_first 1 use_trellis_iter 1\"\n\n\n")
    
    
    for c in range(0, copies):
       for snr in snrs:
       #   f.write("matlab -nodisplay -nojvm -r \"cd $SRC; "+cmmd+"  "+repr(snr)+" "+repr(int(symbols))+" 1 '$RES'\"&\n")
-         f.write("./$SRC/run_run_exit_ber.sh /home/local/software/rh53/matlab/2011a $COMMON \"seed\" 41 \"results_filename\" \"$RES\" \"start_snr "+repr(snr)+" stop_snr "+repr(snr)+" step_snr 0.2\" \"generate_unary_mode\" 3 \"reuse_demod\" 1 \"qpsk_mapping\" \"n\" \"decoding_loops\" 10 \"int3_1\" \"same\" \"int3\" \"randn\"  \"number_type\" \"do\" &")
+         f.write("./$SRC/run_run_exit_ber.sh /home/local/software/rh53/matlab/2011a $COMMON \"seed\" 41 \"results_filename\" \"$RES\" \"start_snr "+repr(snr)+" stop_snr "+repr(snr)+" step_snr 0.2\" \"generate_unary_mode\" 3 \"reuse_demod\" 1 \"qpsk_mapping\" \"n\" \"decoding_loops\" 10 \"int3_1\" \"same\" \"int3\" \"randn\"  \"number_type\" \"do\" &\n")
       f.write("\n")
       
    f.write("\nwait\n")
