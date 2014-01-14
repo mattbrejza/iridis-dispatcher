@@ -120,8 +120,14 @@ def uecadap(file, args):
       bits = 1000;
       print("Defaulting -bits to 1000")
    else:
-      bits = float(opt_dict['bits'])  
+      bits = float(opt_dict['bits']) 
 
+   if ('mm' not in opt_dict.keys()):
+      mm = 'exact';
+      print("Defaulting -mm (MI measuring) to 'exact'")
+   else:
+      mm = opt_dict['mm']
+      
    if ('type' not in opt_dict.keys()):
       type = "m2ms";
       print("Defaulting -type to m2ms")
@@ -176,7 +182,7 @@ def uecadap(file, args):
    
    for c in range(0, copies):
       for snr in snrs:
-         f.write("matlab -nodisplay -nojvm -r \"cd $SRC; adaptive_uec_urc_d_ber( 'results_filename', '$RES/files"+type+"', 'int_len', '"+repr(int(bits))+"', 'max_type', 'max_star', 'start_snr', '"+repr(snr)+"', 'stop_snr', '"+repr(snr)+"', 'step_snr', '1', 'number_type', 'do', 'seed', '"+repr(random.randint(0,100000))+"', 'uec_exit_scaling', '"+uec_scaling+"', 'adaptive', '"+adap+"', 'channel', 'r', 'exit_quant', '"+repr(eq)+"')\"&\n")
+         f.write("matlab -nodisplay -nojvm -r \"cd $SRC; adaptive_uec_urc_d_ber( 'results_filename', '$RES/files"+type+"', 'int_len', '"+repr(int(bits))+"', 'max_type', 'max_star', 'start_snr', '"+repr(snr)+"', 'stop_snr', '"+repr(snr)+"', 'step_snr', '1', 'number_type', 'do', 'seed', '"+repr(random.randint(0,100000))+"', 'uec_exit_scaling', '"+uec_scaling+"', 'adaptive', '"+adap+"', 'channel', 'r', 'mi_measure', '"+mm+"', 'exit_quant', '"+repr(eq)+"')\"&\n")
       f.write("\n")
       
    f.write("\nwait\n")
@@ -289,7 +295,7 @@ def uecimpl(file, args):
    f.write("RES=$PBS_O_WORKDIR/\""+opt_dict['res']+"/"+name+"/\"\n")
    f.write("mkdir -p $RES\n\n\n\n")
    f.write("cd $SRC\n")
-   f.write("mcc -vm run_exit_ber.m *.m\n")
+   f.write("#mcc -vm run_exit_ber.m *.m\n")
    f.write("cd $PBS_O_WORKDIR\n")
    f.write("COMMON=\"modulation qpsk start_snr 1.6 stop_snr 3 step_snr 0.2 pivi 0 int1 srandn int2 srandn stopping_mi 2 minimum_tx_bits 1000000000 enable_trellis_block 1 trellis_knows_first 1 use_trellis_iter 1\"\n\n\n")
    
@@ -297,7 +303,7 @@ def uecimpl(file, args):
    for c in range(0, copies):
       for snr in snrs:
       #   f.write("matlab -nodisplay -nojvm -r \"cd $SRC; "+cmmd+"  "+repr(snr)+" "+repr(int(symbols))+" 1 '$RES'\"&\n")
-         f.write("./$SRC/run_run_exit_ber.sh /home/local/software/rh53/matlab/2011a $COMMON \"seed\" 41 \"results_filename\" \"$RES\" \"start_snr "+repr(snr)+" stop_snr "+repr(snr)+" step_snr 0.2\" \"generate_unary_mode\" 3 \"reuse_demod\" 1 \"qpsk_mapping\" \"n\" \"decoding_loops\" 10 \"int3_1\" \"same\" \"int3\" \"randn\"  \"number_type\" \"do\" &\n")
+         f.write("./$SRC/run_run_exit_ber.sh /home/local/software/rh53/matlab/2013a $COMMON \"seed\" 41 \"results_filename\" \"$RES\" \"start_snr "+repr(snr)+" stop_snr "+repr(snr)+" step_snr 0.2\" \"generate_unary_mode\" 3 \"reuse_demod\" 1 \"qpsk_mapping\" \"n\" \"decoding_loops\" 10 \"int3_1\" \"same\" \"int3\" \"randn\"  \"number_type\" \"do\" &\n")
       f.write("\n")
       
    f.write("\nwait\n")
