@@ -158,7 +158,7 @@ if ('snr' in res[0].keys()) and ('total_symbols' in res[0].keys()) and ('total_s
    #run gnuplot
    system("gnuplot "+args['o']+ "/" + run_name + "/ser_gnuplot.gp")
 
-if ('snr' in res[0].keys()) and ('combined_complexity' in res[0].keys()) and ('combined_complexity_step' in res[0].keys()) and ('total_symbol_errors' in res[0].keys()):
+if ('snr' in res[0].keys()) and ('combined_complexity' in res[0].keys()) and ('combined_complexity_step' in res[0].keys()) and ('total_symbols' in res[0].keys()):
    print("generating cc graph")
    
    #write .dat with all the data
