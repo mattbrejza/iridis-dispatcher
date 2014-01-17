@@ -151,36 +151,71 @@ for run_name in run_names:
             else:
                #merge
                #go through existing list and add new data
-               for k in out_list[found].keys():
-                  #GOT HERE DSRGERGRTGEHEH
-                  if k == "total_bits":
-                     (out_list[found])[k] = (out_list[found])[k] + item[k]
-                  elif k == "total_bit_errors":
-                     (out_list[found])[k] = (out_list[found])[k] + item[k]
-                  elif k == "total_frames":
-                     (out_list[found])[k] = (out_list[found])[k] + item[k]
-                  elif k == "total_frame_errors":
-                     (out_list[found])[k] = (out_list[found])[k] + item[k]
-                  elif k == "total_symbols":
-                     (out_list[found])[k] = (out_list[found])[k] + item[k]
-                  elif k == "total_symbol_errors":
-                     (out_list[found])[k] = (out_list[found])[k] + item[k]
-                  elif k == "combined_complexity":
-                     if (out_list[found])["combined_complexity_step"] == item["combined_complexity_step"]:
-                        l1 = (out_list[found])[k]
-                        l2 = item[k]
-                        for a in range(0, min(len(l1), len(l2))):
-                           l1[a] = l1[a] + l2[a]
-                           
-                        if len(l2) > len(l1):
-                           l1.extend(l2[len(l1):])
-
-                        
-                     else:
-                        print("not yet implemented")
+               for k in item.keys():
+                  if k not in (out_list[found]).keys():
+                     (out_list[found])[k] = item[k]
+                  else:
+                     if k == "total_bits":
+                        (out_list[found])[k] = (out_list[found])[k] + item[k]
+                     elif k == "total_bit_errors":
+                        (out_list[found])[k] = (out_list[found])[k] + item[k]
+                     elif k == "total_frames":
+                        (out_list[found])[k] = (out_list[found])[k] + item[k]
+                     elif k == "total_frame_errors":
+                        (out_list[found])[k] = (out_list[found])[k] + item[k]
+                     elif k == "total_symbols":
+                        (out_list[found])[k] = (out_list[found])[k] + item[k]
+                     elif k == "total_symbol_errors":
+                        (out_list[found])[k] = (out_list[found])[k] + item[k]
+                     elif k == "combined_complexity":
+                        if (out_list[found])["combined_complexity_step"] == item["combined_complexity_step"]:
+                           l1 = (out_list[found])[k]
+                           l2 = item[k]
+                           for a in range(0, min(len(l1), len(l2))):
+                              l1[a] = l1[a] + l2[a]
+                              
+                           if len(l2) > len(l1):
+                              l1.extend(l2[len(l1):])                          
+                        else:
+                           print("not yet implemented")
                      
-         
-         
+                     elif (k == "op1_stats") or (k == "op2_stats") or (k == "op3_stats") or (k == "op4_stats") or (k == "op5_stats"):
+                        if (out_list[found])["combined_complexity_step"] == item["combined_complexity_step"]:
+                           l1 = (out_list[found])[k]
+                           l2 = item[k]
+                           for a in range(0, min(len(l1), len(l2))):
+                              l1[a] = l1[a] + l2[a]                              
+                           if len(l2) > len(l1):
+                              l1.extend(l2[len(l1):]) 
+                              
+                              
+               
+               #for k in out_list[found].keys():
+               #   if k == "total_bits":
+               #      (out_list[found])[k] = (out_list[found])[k] + item[k]
+               #   elif k == "total_bit_errors":
+               #      (out_list[found])[k] = (out_list[found])[k] + item[k]
+               #   elif k == "total_frames":
+               #      (out_list[found])[k] = (out_list[found])[k] + item[k]
+               #   elif k == "total_frame_errors":
+               #      (out_list[found])[k] = (out_list[found])[k] + item[k]
+               #   elif k == "total_symbols":
+               #      (out_list[found])[k] = (out_list[found])[k] + item[k]
+               #   elif k == "total_symbol_errors":
+               #      (out_list[found])[k] = (out_list[found])[k] + item[k]
+               #   elif k == "combined_complexity":
+               #      if (out_list[found])["combined_complexity_step"] == item["combined_complexity_step"]:
+               #         l1 = (out_list[found])[k]
+               #         l2 = item[k]
+               #         for a in range(0, min(len(l1), len(l2))):
+               #            l1[a] = l1[a] + l2[a]
+               #            
+               #         if len(l2) > len(l1):
+               #            l1.extend(l2[len(l1):])
+               #      else:
+               #         print("not yet implemented")
+                     
+                  
          if len(data) < 1:
             break
          item = data.pop()
