@@ -372,6 +372,12 @@ def uecadapref(file, args):
       print("Defaulting -symbols to 666")
    else:
       symbols = float(opt_dict['symbols'])   
+      
+   if ('demod' not in opt_dict.keys()):
+      demod = 1;
+      print("Defaulting -demod to 1 (enabled)")
+   else:
+      demod = float(opt_dict['demod'])   
 
    if ('type' not in opt_dict.keys()):
       die=1
@@ -423,7 +429,7 @@ def uecadapref(file, args):
    
    for c in range(0, copies):
       for snr in snrs:
-         f.write("matlab -nodisplay -nojvm -r \"cd $SRC; "+cmmd+"  "+repr(snr)+" "+repr(int(symbols))+" 1 '$RES'\"&\n")
+         f.write("matlab -nodisplay -nojvm -r \"cd $SRC; "+cmmd+"  "+repr(snr)+" "+repr(int(symbols))+" "+repr(demod)+" '$RES'\"&\n")
       f.write("\n")
       
    f.write("\nwait\n")
