@@ -189,6 +189,8 @@ def uecadap(file, args):
          uec_scaling = "-1"
       elif type == "m2ms":
          uec_scaling = "-2"
+      elif type == "1ms"
+         uec_scaling = "1"
       else:
          print("Invalid -type option. Choose either non,m1ms,m2ms")
    
