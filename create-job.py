@@ -139,6 +139,12 @@ def uecadap(file, args):
       print("Defaulting -type to m2ms")
    else:
       type = opt_dict['type']    
+      
+   if ('ut' not in opt_dict.keys()):
+      urc_type = "URC8";
+      print("Defaulting -ut (urc_type) to URC8 (other options: URC1, URC4)")
+   else:
+      urc_type = opt_dict['ut']
 
    if ('i' not in opt_dict.keys()):
       inter = "randn";
@@ -196,7 +202,7 @@ def uecadap(file, args):
    
    for c in range(0, copies):
       for snr in snrs:
-         f.write("matlab -nodisplay -nojvm -r \"cd $SRC; adaptive_uec_urc_d_ber( 'results_filename', '$RES/files"+type+"', 'int_len', '"+repr(int(bits))+"', 'max_type', 'max_star', 'start_snr', '"+repr(snr)+"', 'stop_snr', '"+repr(snr)+"', 'step_snr', '1', 'number_type', 'do', 'seed', '"+repr(random.randint(0,100000))+"', 'uec_exit_scaling', '"+uec_scaling+"', 'adaptive', '"+adap+"', 'channel', 'r', 'reuse_demod', '"+repr(demod)+"', 'int1', '"+inter+"', 'int2', '"+inter+"', 'int3', '"+inter+"', 'int3_1', '"+inter+"', 'mi_measure', '"+mm+"', 'exit_quant', '"+repr(eq)+"')\"&\n")
+         f.write("matlab -nodisplay -nojvm -r \"cd $SRC; adaptive_uec_urc_d_ber( 'results_filename', '$RES/files"+type+"', 'int_len', '"+repr(int(bits))+"', 'max_type', 'max_star', 'start_snr', '"+repr(snr)+"', 'stop_snr', '"+repr(snr)+"', 'step_snr', '1', 'number_type', 'do', 'seed', '"+repr(random.randint(0,100000))+"', 'uec_exit_scaling', '"+uec_scaling+"', 'adaptive', '"+adap+"', 'channel', 'r', 'reuse_demod', '"+repr(demod)+"', 'urc_type', '"+ urc_type +"', 'int1', '"+inter+"', 'int2', '"+inter+"', 'int3', '"+inter+"', 'int3_1', '"+inter+"', 'mi_measure', '"+mm+"', 'exit_quant', '"+repr(eq)+"')\"&\n")
       f.write("\n")
       
    f.write("\nwait\n")
