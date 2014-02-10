@@ -397,11 +397,17 @@ def uecadapref(file, args):
       demod = 1;
       print("Defaulting -demod to 1 (enabled)")
    else:
-      demod = float(opt_dict['demod'])   
+      demod = float(opt_dict['demod'])   .
+      
+   if ('ut' not in opt_dict.keys()):
+      urc_type = "URC8";
+      print("Defaulting -ut (urc_type) to URC8 (other options: URC1, URC4)")
+   else:
+      urc_type = opt_dict['ut']
 
    if ('type' not in opt_dict.keys()):
       die=1
-      print("Requires option -type. Choose either ET,EUT,UT2")      
+      print("Requires option -type. Choose either ET,EUT,UT2,REFA,REFNON")      
       
    if ('src' not in opt_dict.keys()):
       die=1
@@ -449,7 +455,14 @@ def uecadapref(file, args):
    
    for c in range(0, copies):
       for snr in snrs:
-         f.write("matlab -nodisplay -nojvm -r \"cd $SRC; "+cmmd+"  "+repr(snr)+" "+repr(int(symbols))+" "+repr(demod)+" '$RES'\"&\n")
+         if type.lower() == "et":
+            f.write("matlab -nodisplay -nojvm -r \"cd $SRC; "+cmmd+"  "+repr(snr)+" "+repr(int(symbols))+" "+repr(demod)+" "+urc_type+" '$RES'\"&\n")
+         elif type.lower() == "refa":
+            f.write("matlab -nodisplay -nojvm -r \"cd $SRC; main_UT1A_ser_Iridis "+repr(snr)+" "+repr(int(symbols))+" 1 1 '$RES'\"&\n")
+         elif type.lower() == "refnon":
+            f.write("matlab -nodisplay -nojvm -r \"cd $SRC; main_UT1A_ser_Iridis "+repr(snr)+" "+repr(int(symbols))+" 1 0 '$RES'\"&\n")
+         else:
+            f.write("matlab -nodisplay -nojvm -r \"cd $SRC; "+cmmd+"  "+repr(snr)+" "+repr(int(symbols))+" "+repr(demod)+" '$RES'\"&\n")
       f.write("\n")
       
    f.write("\nwait\n")
