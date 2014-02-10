@@ -397,7 +397,7 @@ def uecadapref(file, args):
       demod = 1;
       print("Defaulting -demod to 1 (enabled)")
    else:
-      demod = float(opt_dict['demod'])   .
+      demod = float(opt_dict['demod'])
       
    if ('ut' not in opt_dict.keys()):
       urc_type = "URC8";
@@ -450,6 +450,10 @@ def uecadapref(file, args):
       cmmd = "main_EUT_ser_Iridis"
    elif type.lower() == "ut2":
       cmmd = "main_UT2_ser_Iridis"
+   elif type.lower() == "refa":
+      cmmd = "main_UT1A_ser_Iridis"
+   elif type.lower() == "refnon":
+      cmmd = "main_UT1A_ser_Iridis"
    else:
       print("Invalid -type option. Choose either ET,EUT,UT2")
    
