@@ -156,7 +156,19 @@ def uecadap(file, args):
       inter = "randn";
       print("Defaulting -i (interleaver) to randn. (other options: srandn)")
    else:
-      inter = opt_dict['i']          
+      inter = opt_dict['i']       
+
+   if ('mc' not in opt_dict.keys()):
+      mi_c = "na";
+      print("Defaulting -mc (mi c value) to na.")
+   else:
+      mi_c = opt_dict['mc']    
+
+   if ('mg' not in opt_dict.keys()):
+      mi_m = "na";
+      print("Defaulting -mg (mi gradient value) to na.")
+   else:
+      mi_m = opt_dict['mg']          
       
    if ('src' not in opt_dict.keys()):
       die=1
@@ -208,7 +220,10 @@ def uecadap(file, args):
    
    for c in range(0, copies):
       for snr in snrs:
-         f.write("matlab -nodisplay -nojvm -r \"cd $SRC; adaptive_uec_urc_d_ber( 'results_filename', '$RES/files"+type+"', 'int_len', '"+repr(int(bits))+"', 'max_type', 'max_star', 'start_snr', '"+repr(snr)+"', 'stop_snr', '"+repr(snr)+"', 'step_snr', '1', 'number_type', 'do', 'seed', '"+repr(random.randint(0,100000))+"', 'uec_exit_scaling', '"+uec_scaling+"', 'adaptive', '"+adap+"', 'channel', 'r', 'minimum_tx_bits', '100000000', 'last_uec_states', '"+last_uec_states+"', 'reuse_demod', '"+repr(demod)+"', 'urc_type', '"+ urc_type +"', 'int1', '"+inter+"', 'int2', '"+inter+"', 'int3', '"+inter+"', 'int3_1', '"+inter+"', 'mi_measure', '"+mm+"', 'exit_quant', '"+repr(eq)+"')\"&\n")
+         f.write("matlab -nodisplay -nojvm -r \"cd $SRC; adaptive_uec_urc_d_ber( 'results_filename', '$RES/files"+type+"', 'int_len', '"+repr(int(bits))+"', 'max_type', 'max_star', 'start_snr', '"+repr(snr)+"', 'stop_snr', '"+repr(snr)+"', 'step_snr', '1', 'number_type', 'do', 'seed', '"+repr(random.randint(0,100000))+"', 'uec_exit_scaling', '"+uec_scaling+"', 'adaptive', '"+adap+"', 'channel', 'r',")
+         if (not(mi_c=="na")) and (not(mi_m=="na")):
+            f.write(" 'mi_m', '"+mi_m+"', 'mi_c', '"+mi_c+"',")
+         f.write(" 'minimum_tx_bits', '100000000', 'last_uec_states', '"+last_uec_states+"', 'reuse_demod', '"+repr(demod)+"', 'urc_type', '"+ urc_type +"', 'int1', '"+inter+"', 'int2', '"+inter+"', 'int3', '"+inter+"', 'int3_1', '"+inter+"', 'mi_measure', '"+mm+"', 'exit_quant', '"+repr(eq)+"')\"&\n")
       f.write("\n")
       
    f.write("\nwait\n")
