@@ -482,6 +482,10 @@ def uecadapref(file, args):
       for snr in snrs:
          if type.lower() == "et":
             f.write("matlab -nodisplay -nojvm -r \"cd $SRC; "+cmmd+"  "+repr(snr)+" "+repr(int(symbols))+" "+repr(demod)+" "+urc_type+" '$RES'\"&\n")
+         elif type.lower() == "ut2":
+            f.write("matlab -nodisplay -nojvm -r \"cd $SRC; "+cmmd+"  "+repr(snr)+" "+repr(int(symbols))+" "+repr(demod)+" "+urc_type+" '$RES'\"&\n")
+         elif type.lower() == "eut":
+            f.write("matlab -nodisplay -nojvm -r \"cd $SRC; "+cmmd+"  "+repr(snr)+" "+repr(int(symbols))+" "+repr(demod)+" "+urc_type+" '$RES'\"&\n")
          elif type.lower() == "refa":
             f.write("matlab -nodisplay -nojvm -r \"cd $SRC; main_UT1A_ser_Iridis "+repr(snr)+" "+repr(int(symbols))+" 1 1 '$RES'\"&\n")
          elif type.lower() == "refnon":
