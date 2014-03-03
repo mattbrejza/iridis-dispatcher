@@ -62,8 +62,35 @@ class Example(Frame):
       btn_rm.place(x=150,y=140)
       
       #complexity slider.
-      self.cc_bar = Scale(self, from_=0, to=300, resolution=0.1, length=400, orient=HORIZONTAL, command=self.update_cc_plot)
+      self.cc_bar = Scale(self, from_=0, to=10000, resolution=10, length=400, orient=HORIZONTAL, command=self.update_cc_plot)
       self.cc_bar.place(x=10,y=230)
+      
+      
+      
+      #create graphs start box
+      self.save_start=""
+      lbss = Label(self, text="Start:")        
+      lbss.place(x=20, y=300)
+      self.tb_save_start = Entry(self, width = 30, textvariable=self.save_start)
+      self.tb_save_start.place(x=104,y=300)  
+      
+      #create graphs interval box
+      self.save_interval=""
+      lbsi = Label(self, text="Step:")        
+      lbsi.place(x=20, y=320)
+      self.tb_save_interval = Entry(self, width = 30, textvariable=self.save_interval)
+      self.tb_save_interval.place(x=104,y=320)  
+      
+      #create graphs end box
+      self.save_end=""
+      lbse = Label(self, text="End:")        
+      lbse.place(x=20, y=340)
+      self.tb_save_end = Entry(self, width = 30, textvariable=self.save_end)
+      self.tb_save_end.place(x=104,y=340)  
+      
+      #create graphs button
+      btn_sg = Button(self, text="Generate", width=10, command=self.save_items)
+      btn_sg.place(x=290,y=340)
         
      
    def onScale(self, val):     
@@ -127,6 +154,20 @@ class Example(Frame):
       print("moo")
       plt.plot([1,7,3,4,6,8])
       plt.show()
+      
+   def save_items(self):
+      end = float(self.tb_save_end.get())
+      interval = float(self.tb_save_interval.get())
+      start = float(self.tb_save_start.get())
+      cps = numpy.arange(start, end, interval)
+      
+      for c in cps:
+         self.update_cc_plot(c)
+         self.fig_cc.savefig('figs/'+repr(c)+'.png',bbox_inches='tight')
+      #start = float(self.save_end)
+      #self.update_cc_plot(300);
+      #self.fig_cc.savefig('foo.png',bbox_inches='tight')
+      
       
    def update_plot(self):
       self.fig_ber.clf()
@@ -210,7 +251,7 @@ class Example(Frame):
             for i in range(0,len(run)):
                max_cplx = max(run[i]['combined_complexity_step'] * len(run[i]['combined_complexity']),max_cplx)
             
-      rqrd_c = float(val)/float(300)*max_cplx
+      rqrd_c = float(val)#/float(300)*max_cplx
       print(rqrd_c)
       for run_name in self.data:
          run = self.data[run_name]
@@ -246,7 +287,9 @@ class Example(Frame):
          axs.set_yscale('log')
          axs.set_xlabel('SNR')
          axs.set_ylabel('SER')
+         axs.set_title(repr(rqrd_c))
          self.fig_cc.show()
+         
       
 def main():
   
