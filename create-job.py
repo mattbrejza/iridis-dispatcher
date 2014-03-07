@@ -25,9 +25,13 @@ def write_preamble(file,nodes,ppn,walltime):
    
    module load matlab/2013a
    module load matlab/2011a
+   
+   ~/message.py "Job: $PBS_JOBNAME started" -1
 
    """))
 
+def write_postamble(file):
+   file.write("~/extract_runtime.py $PBS_JOBID 10 1")
 
 def getoptions(args):
    
@@ -233,6 +237,8 @@ def uecadap(file, args):
       f.write("\n")
       
    f.write("\nwait\n")
+   
+   write_postamble(f)
    
    f.close()  
    
