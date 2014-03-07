@@ -140,6 +140,12 @@ def uecadap(file, args):
    else:
       type = opt_dict['type']    
       
+   if ('uec_r' not in opt_dict.keys()):
+      uec_r = "8";
+      print("Defaulting -uec_r (non adaptive uec states to 8")
+   else:
+      uec_r = opt_dict['uec_r']   
+      
    if ('ut' not in opt_dict.keys()):
       urc_type = "URC8";
       print("Defaulting -ut (urc_type) to URC8 (other options: URC1, URC4)")
@@ -223,7 +229,7 @@ def uecadap(file, args):
          f.write("matlab -nodisplay -nojvm -r \"cd $SRC; adaptive_uec_urc_d_ber( 'results_filename', '$RES/files"+type+"', 'int_len', '"+repr(int(bits))+"', 'max_type', 'max_star', 'start_snr', '"+repr(snr)+"', 'stop_snr', '"+repr(snr)+"', 'step_snr', '1', 'number_type', 'do', 'seed', '"+repr(random.randint(0,100000))+"', 'uec_exit_scaling', '"+uec_scaling+"', 'adaptive', '"+adap+"', 'channel', 'r',")
          if (not(mi_c=="na")) and (not(mi_m=="na")):
             f.write(" 'mi_m', '"+mi_m+"', 'mi_c', '"+mi_c+"',")
-         f.write(" 'minimum_tx_bits', '100000000', 'last_uec_states', '"+last_uec_states+"', 'reuse_demod', '"+repr(demod)+"', 'urc_type', '"+ urc_type +"', 'int1', '"+inter+"', 'int2', '"+inter+"', 'int3', '"+inter+"', 'int3_1', '"+inter+"', 'mi_measure', '"+mm+"', 'exit_quant', '"+repr(eq)+"')\"&\n")
+         f.write(" 'minimum_tx_bits', '100000000', 'uec_r', '"+uec_r+"' 'last_uec_states', '"+last_uec_states+"', 'reuse_demod', '"+repr(demod)+"', 'urc_type', '"+ urc_type +"', 'int1', '"+inter+"', 'int2', '"+inter+"', 'int3', '"+inter+"', 'int3_1', '"+inter+"', 'mi_measure', '"+mm+"', 'exit_quant', '"+repr(eq)+"')\"&\n")
       f.write("\n")
       
    f.write("\nwait\n")
