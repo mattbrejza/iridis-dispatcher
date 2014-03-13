@@ -432,6 +432,12 @@ def uecadapref(file, args):
    else:
       demod = float(opt_dict['demod'])
       
+   if ('non_r' not in opt_dict.keys()):
+      non_r = 8;
+      print("Defaulting -non_r (non adaptive uec states) to 8")
+   else:
+      non_r = float(opt_dict['non_r'])
+      
    if ('ut' not in opt_dict.keys()):
       urc_type = "URC8";
       print("Defaulting -ut (urc_type) to URC8 (other options: URC1, URC4)")
@@ -487,6 +493,10 @@ def uecadapref(file, args):
       cmmd = "main_UT1A_ser_Iridis"
    elif type.lower() == "refnon":
       cmmd = "main_UT1A_ser_Iridis"
+   elif type.lower() == "refan":
+      cmmd = "main_UT1A_ser_Iridis_new"
+   elif type.lower() == "refnonn":
+      cmmd = "main_UT1A_ser_Iridis_new"
    else:
       print("Invalid -type option. Choose either ET,EUT,UT2")
    
@@ -502,6 +512,10 @@ def uecadapref(file, args):
             f.write("matlab -nodisplay -nojvm -r \"cd $SRC; main_UT1A_ser_Iridis "+repr(snr)+" "+repr(int(symbols))+" 1 1 '$RES'\"&\n")
          elif type.lower() == "refnon":
             f.write("matlab -nodisplay -nojvm -r \"cd $SRC; main_UT1A_ser_Iridis "+repr(snr)+" "+repr(int(symbols))+" 1 0 '$RES'\"&\n")
+         elif type.lower() == "refan":
+            f.write("matlab -nodisplay -nojvm -r \"cd $SRC; "+cmmd+" "+repr(snr)+" "+repr(int(symbols))+" 1 '$RES' 0\"&\n")
+         elif type.lower() == "refnonn":
+            f.write("matlab -nodisplay -nojvm -r \"cd $SRC; "+cmmd+" "+repr(snr)+" "+repr(int(symbols))+" 0 '$RES' "+non_r+"\"&\n")
          else:
             f.write("matlab -nodisplay -nojvm -r \"cd $SRC; "+cmmd+"  "+repr(snr)+" "+repr(int(symbols))+" "+repr(demod)+" '$RES'\"&\n")
       f.write("\n")
