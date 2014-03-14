@@ -433,10 +433,10 @@ def uecadapref(file, args):
       demod = float(opt_dict['demod'])
       
    if ('non_r' not in opt_dict.keys()):
-      non_r = 8;
+      non_r = "8";
       print("Defaulting -non_r (non adaptive uec states) to 8")
    else:
-      non_r = float(opt_dict['non_r'])
+      non_r = (opt_dict['non_r'])
       
    if ('ut' not in opt_dict.keys()):
       urc_type = "URC8";
