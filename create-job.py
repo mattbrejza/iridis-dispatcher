@@ -522,6 +522,8 @@ def uecadapref(file, args):
       
    f.write("\nwait\n")
    
+   write_postamble(f)
+   
    f.close()  
 
 
