@@ -361,6 +361,8 @@ def uecimpl(file, args):
       
    f.write("\nwait\n")
    
+   write_postamble(f)
+   
    f.close()  
    
 def uecadapref(file, args):
