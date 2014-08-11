@@ -357,7 +357,7 @@ def uecimpl(file, args):
    for c in range(0, copies):
       for snr in snrs:
       #   f.write("matlab -nodisplay -nojvm -r \"cd $SRC; "+cmmd+"  "+repr(snr)+" "+repr(int(symbols))+" 1 '$RES'\"&\n")
-         f.write("matlab -nodisplay -nojvm -r \"cd $SRC; run_exit_ber ( $COMMON 'seed' '41', 'results_filename', '$RES', 'start_snr', '"+repr(snr)+"', 'stop_snr', '"+repr(snr)+"', 'step_snr', '0.2', 'generate_unary_mode', '3', 'reuse_demod', '1', 'qpsk_mapping', 'n', 'decoding_loops', '10', 'int3_1', 'same', 'int3', 'randn',  'number_type', 'do') \" &\n")
+         f.write("matlab -nodisplay -nojvm -r \"cd $SRC; run_exit_ber ( $COMMON 'seed', '41', 'results_filename', '$RES', 'start_snr', '"+repr(snr)+"', 'stop_snr', '"+repr(snr)+"', 'step_snr', '0.2', 'generate_unary_mode', '3', 'reuse_demod', '1', 'qpsk_mapping', 'n', 'decoding_loops', '10', 'int3_1', 'same', 'int3', 'randn',  'number_type', 'do') \" &\n")
       f.write("\n")
       
    f.write("\nwait\n")
