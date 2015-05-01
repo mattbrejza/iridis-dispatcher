@@ -62,7 +62,7 @@ class Example(Frame):
       btn_rm.place(x=150,y=140)
       
       #complexity slider.
-      self.cc_bar = Scale(self, from_=0, to=10000, resolution=10, length=400, orient=HORIZONTAL, command=self.update_cc_plot)
+      self.cc_bar = Scale(self, from_=0, to=50000, resolution=10, length=400, orient=HORIZONTAL, command=self.update_cc_plot)
       self.cc_bar.place(x=10,y=230)
       
       
@@ -127,8 +127,9 @@ class Example(Frame):
             #load json
             file = self.data_folder + "/" +run_name + "/*.json"
             file_list = glob.glob(file)
+            file_list.sort(key=os.path.getmtime)
             if (len(file_list)>0):
-               data_j = json.load(open(file_list[0]))
+               data_j = json.load(open(file_list[len(file_list)-1]))
                self.data[run_name] = data_j
                self.lb_us.insert(END, run_name)
       
@@ -244,6 +245,8 @@ class Example(Frame):
       plotted = 0;
       max_cplx = 0
       
+      
+      
       for run_name in self.data:
          run = self.data[run_name]
          #cc ser plot
@@ -252,6 +255,7 @@ class Example(Frame):
                max_cplx = max(run[i]['combined_complexity_step'] * len(run[i]['combined_complexity']),max_cplx)
             
       rqrd_c = float(val)#/float(300)*max_cplx
+      file = open('raw_out_' +  repr(rqrd_c) + '.txt','w')
       print(rqrd_c)
       for run_name in self.data:
          run = self.data[run_name]
@@ -279,9 +283,15 @@ class Example(Frame):
             minsnr = sorted(snrs)[0];
             
             line = axs.plot(xdata, ydata, lw=1, label=run_name)
+            file.write(run_name + ", " + str(xdata).strip('[]'))
+            file.write('\n')
+            file.write(run_name + ", " + str(ydata).strip('[]'))
+            file.write('\n')
             axs.legend(bbox_to_anchor=(1.05, 1), loc="best", borderaxespad=0.)
             plotted = 1;
 
+
+      file.close()
 
       if plotted:      
          axs.set_yscale('log')
