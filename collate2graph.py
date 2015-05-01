@@ -220,7 +220,7 @@ for run_name in run_names:
       sy = s_d['total_symbols'];
       step = s_d['combined_complexity_step']
       index = int(target_c/step)
-      ser_list.append(cc[index]/sy)
+      ser_list.append(float(cc[index])/float(sy))
       
       if (snr_min > float(this_snr)):
          snr_min = this_snr
@@ -273,13 +273,13 @@ f.write(textwrap.dedent("""\
    set output 'out.png'
    set xrange[""" + str(snr_min) + ":" + str(snr_max) + """]
 
-   set style line 1 lc rgb 'black' pt 1 pi 2 ps 2   #rice
-   set style line 2 lc rgb 'blue' pt 2 pi 2 ps 2    #expg
-   set style line 3 lc rgb 'red' pt 6 pi 2 ps 2     #rice-cc
-   set style line 4 lc rgb 'green' pt 4 pi 2 ps 2   #expg-cc
-   set style line 5 lc rgb 'orange' pt 3 pi 2 ps 2  #uec
-   set style line 6 lc rgb 'yellow' pt 5 pi 2 ps 2  #vlec
-   set style line 7 lc rgb 'purple' pt 7 pi 2 ps 2
+   set style line 1 lc rgb 'black' pt 1  ps 2   #rice
+   set style line 2 lc rgb 'blue' pt 2  ps 2    #expg
+   set style line 3 lc rgb 'red' pt 6  ps 2     #rice-cc
+   set style line 4 lc rgb 'green' pt 4  ps 2   #expg-cc
+   set style line 5 lc rgb 'orange' pt 3  ps 2  #uec
+   set style line 6 lc rgb 'yellow' pt 5  ps 2  #vlec
+   set style line 7 lc rgb 'purple' pt 7  ps 2
 
    plot """))
 
@@ -300,5 +300,7 @@ for run_name in run_list:
    elif "rice" in run_name:
       style = 1
    name = run_name.replace('_','-')
-   f.write("'results_data.dat' using ($" + str(i) + "-10*log10(1)):($"+str(i+1)+"==0) ? NaN : $"+str(i+1)+" with line ls "+str(style)+" title '" + name + "', \\\n")
+   if ( i > 1 ):
+      f.write("', \\\n")
+   f.write("'results_data.dat' using ($" + str(i) + "-10*log10(1)):($"+str(i+1)+"==0) ? NaN : $"+str(i+1)+" with line ls "+str(style)+" title '" + name)
    i=i+2
