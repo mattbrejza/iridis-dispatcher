@@ -220,7 +220,8 @@ for run_name in run_names:
       sy = s_d['total_symbols'];
       step = s_d['combined_complexity_step']
       index = int(target_c/step)
-      ser_list.append(float(cc[index])/float(sy))
+      if (float(sy) > 0):
+         ser_list.append(float(cc[index])/float(sy))
       
       if (snr_min > float(this_snr)):
          snr_min = this_snr
