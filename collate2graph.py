@@ -282,6 +282,8 @@ f.write(textwrap.dedent("""\
    set style line 6 lc rgb 'yellow' pt 5  ps 2  #vlec
    set style line 7 lc rgb 'purple' pt 7  ps 2
 
+   set title 'Complexity: """ + str(args['c']) + """'
+   
    plot """))
 
 i=1
