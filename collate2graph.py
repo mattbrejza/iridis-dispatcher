@@ -214,14 +214,14 @@ for run_name in run_names:
    #go through and extract each snr
    for s_d in out_list:
       #look here
-      this_snr = s_d['snr']
-      snr_list.append(this_snr)
+      this_snr = s_d['snr']      
       cc = s_d['combined_complexity']
       sy = s_d['total_symbols'];
       step = s_d['combined_complexity_step']
       index = int(target_c/step)
       if (float(sy) > 0):
          ser_list.append(float(cc[index])/float(sy))
+         snr_list.append(this_snr)
       
       if (snr_min > float(this_snr)):
          snr_min = this_snr
