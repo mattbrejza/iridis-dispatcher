@@ -274,19 +274,20 @@ f.write(textwrap.dedent("""\
    set output 'out.png'
    set xrange[""" + str(snr_min) + ":" + str(snr_max) + """]
 
-   set style line 1 lc rgb 'black' pt 1  ps 2   #rice
-   set style line 2 lc rgb 'blue' pt 2  ps 2    #expg
-   set style line 3 lc rgb 'red' pt 6  ps 2     #rice-cc
-   set style line 4 lc rgb 'green' pt 4  ps 2   #expg-cc
-   set style line 5 lc rgb 'orange' pt 3  ps 2  #uec
-   set style line 6 lc rgb 'yellow' pt 5  ps 2  #vlec
-   set style line 7 lc rgb 'purple' pt 7  ps 2
+   set style line 1 lc rgb 'black'   ps 1   #rice
+   set style line 2 lc rgb 'blue'   ps 1    #expg
+   set style line 3 lc rgb 'red'  ps 1     #rice-cc
+   set style line 4 lc rgb 'green'  ps 1   #expg-cc
+   set style line 5 lc rgb 'orange'   ps 1  #uec
+   set style line 6 lc rgb 'yellow'   ps 1  #vlec
+   set style line 7 lc rgb 'purple'   ps 1
 
    set title 'Complexity: """ + str(args['c']) + """'
    
    plot """))
 
 i=1
+pt=1
 print(run_list)
 for run_name in run_list:
    style = 7
@@ -305,5 +306,6 @@ for run_name in run_list:
    name = run_name.replace('_','-')
    if ( i > 1 ):
       f.write("', \\\n")
-   f.write("'results_data.dat' using ($" + str(i) + "-10*log10(1)):($"+str(i+1)+"==0) ? NaN : $"+str(i+1)+" with line ls "+str(style)+" title '" + name)
+   f.write("'results_data.dat' using ($" + str(i) + "-10*log10(1)):($"+str(i+1)+"==0) ? NaN : $"+str(i+1)+" with linespoints ls "+str(style)+" pt "+str(pt)+" title '" + name)
    i=i+2
+   pt=pt+1
