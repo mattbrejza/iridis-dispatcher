@@ -220,6 +220,8 @@ for run_name in run_names:
       step = s_d['combined_complexity_step']
       index = int(target_c/step)
       if (float(sy) > 0):
+         if (index >= len(cc)):
+            index = len(cc)-1;
          ser_list.append(float(cc[index])/float(sy))
          snr_list.append(this_snr)
       
