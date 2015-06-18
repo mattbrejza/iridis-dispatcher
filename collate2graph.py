@@ -68,11 +68,11 @@ if ('f' in args.keys()):
          if (line[0] != '#'):
             spl = line.split(' ',1);
             if (len(spl) == 1):
-               filter_list.append(spl[0])
-               filter_list_rename.append(spl[0])
+               filter_list.append(spl[0].strip())
+               filter_list_rename.append(spl[0].strip())
             elif (len(spl) == 2):
-               filter_list.append(spl[0])
-               filter_list_rename.append(spl[1])
+               filter_list.append(spl[0].strip())
+               filter_list_rename.append(spl[1].strip())
    else:
       print("filter file not found")
       exit()
@@ -107,6 +107,7 @@ for i in cd:
 snr_lists = []
 ser_lists = []
 run_list = []
+rename_list = []
 snr_min = 1000
 snr_max = -1000
 
@@ -266,7 +267,8 @@ for run_name in run_names:
       if (len(snr_list)>0):   
          snr_lists.append(snr_list)
          ser_lists.append(ser_list)
-         run_list.append(run_rename)
+         run_list.append(run_name)
+         rename_list.append(run_rename)
 
 mkdir_p(args['o'])
 f = open(args['o']+"/results_data.dat",'w')
@@ -331,6 +333,7 @@ f.write("plot ");
    
 i=1
 pt=1
+ptr = 0
 colour = "blank"
 print(run_list)
 for run_name in run_list:
@@ -357,6 +360,7 @@ for run_name in run_list:
    name = run_name.replace('_','-')
    if ( i > 1 ):
       f.write("', \\\n")
-   f.write("'results_data.dat' using ($" + str(i) + "-10*log10(1)):($"+str(i+1)+"==0) ? NaN : $"+str(i+1)+" with linespoints lc rgb'"+colour+"' ps 1 lt 1 pt "+str(pt)+" title '" + name)
+   f.write("'results_data.dat' using ($" + str(i) + "-10*log10(1)):($"+str(i+1)+"==0) ? NaN : $"+str(i+1)+" with linespoints lc rgb'"+colour+"' ps 1 lt 1 pt "+str(pt)+" title '" + rename_list[ptr])
    i=i+2
    pt=pt+1
+   ptr = ptr + 1
