@@ -300,7 +300,7 @@ f = open(args['o']+"/results_run.gp",'w')
 
 if ('tex' in args.keys()):
    f.write(textwrap.dedent("""\
-      set terminal pslatex
+      set terminal pslatex 8
       set xlabel 'SNR (dB)'
       set ylabel 'SER'
       set logscale y
