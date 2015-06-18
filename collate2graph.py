@@ -357,6 +357,6 @@ for run_name in run_list:
    name = run_name.replace('_','-')
    if ( i > 1 ):
       f.write("', \\\n")
-   f.write("'results_data.dat' using ($" + str(i) + "-10*log10(1)):($"+str(i+1)+"==0) ? NaN : $"+str(i+1)+" with linespoints lc rgb'"+colour+"' ps 1 pt "+str(pt)+" title '" + name)
+   f.write("'results_data.dat' using ($" + str(i) + "-10*log10(1)):($"+str(i+1)+"==0) ? NaN : $"+str(i+1)+" with linespoints lc rgb'"+colour+"' ps 1 lt 1 pt "+str(pt)+" title '" + name)
    i=i+2
    pt=pt+1
