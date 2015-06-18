@@ -286,9 +286,9 @@ while keepgoing:
    for i in range(0, len(run_list)):
       if (len(snr_lists[i]) > snr_index):
          keepgoing = 1
-         f.write(str((snr_lists[i])[snr_index]) + "\t"+ str((ser_lists[i])[snr_index]) + "\t")
+         f.write(str((snr_lists[i])[snr_index]) + ","+ str((ser_lists[i])[snr_index]) + ",")
       else:
-         f.write("\t \t")
+         f.write(", ,")
    f.write("\n")
    snr_index = snr_index + 1
       
