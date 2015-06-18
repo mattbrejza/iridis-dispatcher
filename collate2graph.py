@@ -17,7 +17,7 @@ import errno
 def print_usage():
 
    print("Graph all folders in results path:\n")
-   print("\tcollate2graph.py -c complexity -r results_folder -o output_folder\n\n\n")
+   print("\tcollate2graph.py -c complexity {-f filter_file, -t title -tex} -r results_folder -o output_folder\n\n\n")
    
 def mkdir_p(path):
     try:
@@ -59,7 +59,26 @@ if len(sys.argv) < 6:
    
 args = getoptions(sys.argv[1:])
 
+filter_list = [];
+filter_list_rename = [];
+if ('f' in args.keys()):
+   if (os.path.isfile(args['f'])):
+      f = open(args['f'],'r')
+      for line in f:
+         if (line[0] != '#'):
+            spl = line.split(' ',1);
+            if (len(spl) == 1):
+               filter_list.append(spl[0])
+               filter_list_rename.append(spl[0])
+            elif (len(spl) == 2):
+               filter_list.append(spl[0])
+               filter_list_rename.append(spl[1])
+   else:
+      print("filter file not found")
+      exit()
 
+
+           
 if ('r' not in args.keys()):
    print_usage()
    print(":(")
@@ -211,29 +230,43 @@ for run_name in run_names:
    
    target_c = float(args['c']);
    
-   #go through and extract each snr
-   for s_d in out_list:
-      #look here
-      this_snr = s_d['snr']      
-      cc = s_d['combined_complexity']
-      sy = s_d['total_symbols'];
-      step = s_d['combined_complexity_step']
-      index = int(target_c/step)
-      if (float(sy) > 0):
-         if (index >= len(cc)):
-            index = len(cc)-1;
-         ser_list.append(float(cc[index])/float(sy))
-         snr_list.append(this_snr)
-      
-      if (snr_min > float(this_snr)):
-         snr_min = this_snr
-      if ((snr_max < float(this_snr)) and (cc[index] > 0)):
-         snr_max = this_snr
-      
-   if (len(snr_list)>0):   
-      snr_lists.append(snr_list)
-      ser_lists.append(ser_list)
-      run_list.append(run_name)
+   include = 0;
+   run_rename = run_name
+   if (len(filter_list) == 0):
+      include = 1;
+   else:
+      i = 0;
+      for line in filter_list:
+         print(line + "  " + run_name);
+         if run_name.startswith(line):
+            include = 1;
+            run_rename = filter_list_rename[i];
+         i=i+1;
+   
+   if (include > 0):
+      #go through and extract each snr
+      for s_d in out_list:
+         #look here
+         this_snr = s_d['snr']      
+         cc = s_d['combined_complexity']
+         sy = s_d['total_symbols'];
+         step = s_d['combined_complexity_step']
+         index = int(target_c/step)
+         if (float(sy) > 0):
+            if (index >= len(cc)):
+               index = len(cc)-1;
+            ser_list.append(float(cc[index])/float(sy))
+            snr_list.append(this_snr)
+         
+         if (snr_min > float(this_snr)):
+            snr_min = this_snr
+         if ((snr_max < float(this_snr)) and (cc[index] > 0)):
+            snr_max = this_snr
+         
+      if (len(snr_list)>0):   
+         snr_lists.append(snr_list)
+         ser_lists.append(ser_list)
+         run_list.append(run_rename)
 
 mkdir_p(args['o'])
 f = open(args['o']+"/results_data.dat",'w')
@@ -265,30 +298,37 @@ f.close()
 #write gnuplot file
 f = open(args['o']+"/results_run.gp",'w') 
 
-f.write(textwrap.dedent("""\
-   set terminal png
-   set termoptions enhanced
-   set xlabel 'SNR (dB)'
-   set ylabel 'SER'
-   set logscale y
-   set format y '10^{%L}'
-   set yrange[0.00001:1]
-   set output 'out.png'
-   set xrange[""" + str(snr_min) + ":" + str(snr_max) + """]
-
-   #set style line 1 lc rgb 'black' ps 1   #rice
-   #set style line 2 lc rgb 'blue' ps 1    #expg
-   #set style line 3 lc rgb 'red' ps 1     #rice-cc
-   #set style line 4 lc rgb 'green' ps 1   #expg-cc
-   #set style line 5 lc rgb 'orange' ps 1  #uec
-   #set style line 6 lc rgb 'yellow' ps 1  #vlec
-   #set style line 7 lc rgb 'purple' ps 1
-
-   set title 'Complexity: """ + str(args['c']) + """'
+if ('tex' in args.keys()):
+   f.write(textwrap.dedent("""\
+      set terminal pslatex
+      set xlabel 'SNR (dB)'
+      set ylabel 'SER'
+      set logscale y
+      set format y '$10^{%L}$'
+      set yrange[0.00001:1]
+      set output 'results_run.tex'
+      set xrange[""" + str(snr_min) + ":" + str(snr_max) + """]
+      """))
+else:
+   f.write(textwrap.dedent("""\
+      set terminal png
+      set termoptions enhanced
+      set xlabel 'SNR (dB)'
+      set ylabel 'SER'
+      set logscale y
+      set format y '10^{%L}'
+      set yrange[0.00001:1]
+      set output 'out.png'
+      set xrange[""" + str(snr_min) + ":" + str(snr_max) + """]
+      """))
    
-   plot """))
-
-
+if ('t' in args.keys()):
+   f.write("set title '" + args['t'] + "'\n\n")
+else:
+   f.write("set title 'Complexity: " + str(args['c']) + "'\n\n")
+   
+f.write("plot ");
+   
 i=1
 pt=1
 colour = "blank"
