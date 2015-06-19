@@ -65,19 +65,19 @@ if ('f' in args.keys()):
    if (os.path.isfile(args['f'])):
       f = open(args['f'],'r')
       for line in f:
-         if (line[0] != '#'):
+         if (len(line)>2) and (line[0] != '#'):
             spl = line.split(' ',1);
             if (len(spl) == 1):
-               filter_list.append(spl[0].strip())
+               filter_list.append(spl[0].strip().replace('-','_'))
                filter_list_rename.append(spl[0].strip())
             elif (len(spl) == 2):
-               filter_list.append(spl[0].strip())
+               filter_list.append(spl[0].strip().replace('-','_'))
                filter_list_rename.append(spl[1].strip())
    else:
       print("filter file not found")
       exit()
 
-
+print(filter_list);
            
 if ('r' not in args.keys()):
    print_usage()
