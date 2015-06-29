@@ -264,7 +264,9 @@ for run_name in run_names:
          if ((snr_max < float(this_snr)) and (cc[index] > 0)):
             snr_max = this_snr
          
-      if (len(snr_list)>0):   
+      if (len(snr_list)>0):
+         ser_list = [x for y, x in sorted(zip(snr_list, ser_list))]
+         snr_list.sort()
          snr_lists.append(snr_list)
          ser_lists.append(ser_list)
          run_list.append(run_name)
