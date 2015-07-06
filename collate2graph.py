@@ -314,7 +314,7 @@ if ('tex' in args.keys()):
       eta = 1
       capacity = -10
       ebstart = """ + str(snr_min) + """
-      end = """ + str(snr_max) + """
+      ebend = """ + str(snr_max) + """
       exist = system("[ -f eta.cfg ] && echo '1' || echo '0'") + 0
       if (exist)  load 'eta.cfg' 
       set xrange[ebstart : ebend ]
@@ -334,7 +334,7 @@ else:
       eta = 1
       capacity = -10
       ebstart = """ + str(snr_min) + """
-      end = """ + str(snr_max) + """
+      ebend = """ + str(snr_max) + """
       exist = system("[ -f eta.cfg ] && echo '1' || echo '0'") + 0
       if (exist)  load 'eta.cfg' 
       set xrange[ebstart : ebend ]
