@@ -311,7 +311,15 @@ if ('tex' in args.keys()):
       set format y '$10^{%L}$'
       set yrange[0.00001:1]
       set output 'results_run.tex'
-      set xrange[""" + str(snr_min) + ":" + str(snr_max) + """]
+      eta = 1
+      capacity = -10
+      ebstart = """ + str(snr_min) + """
+      end = """ + str(snr_max) + """
+      exist = system("[ -f eta.cfg ] && echo '1' || echo '0'") + 0
+      if (exist)  load 'eta.cfg' 
+      set xrange[ebstart : ebend ]
+      set arrow from capacity,0.002 to capacity,0.9 nohead
+      set label 2 "Capacity bound"   at capacity-0.08,0.002 rotate left
       """))
 else:
    f.write(textwrap.dedent("""\
@@ -323,7 +331,15 @@ else:
       set format y '10^{%L}'
       set yrange[0.00001:1]
       set output 'out.png'
-      set xrange[""" + str(snr_min) + ":" + str(snr_max) + """]
+      eta = 1
+      capacity = -10
+      ebstart = """ + str(snr_min) + """
+      end = """ + str(snr_max) + """
+      exist = system("[ -f eta.cfg ] && echo '1' || echo '0'") + 0
+      if (exist)  load 'eta.cfg' 
+      set xrange[ebstart : ebend ]
+      set arrow from capacity,0.002 to capacity,0.9 nohead
+      set label 2 "Capacity bound"   at capacity-0.08,0.002 rotate left
       """))
    
 if ('t' in args.keys()):
@@ -362,7 +378,7 @@ for run_name in run_list:
    name = rename_list[ptr].replace('_','-')
    if ( i > 1 ):
       f.write("', \\\n")
-   f.write("'results_data.dat' using ($" + str(i) + "-10*log10(1)):($"+str(i+1)+"==0) ? NaN : $"+str(i+1)+" with linespoints lc rgb'"+colour+"' ps 1 lt 1 pt "+str(pt)+" title '" + name)
+   f.write("'results_data.dat' using ($" + str(i) + "-10*log10(eta)):($"+str(i+1)+"==0) ? NaN : $"+str(i+1)+" with linespoints lc rgb'"+colour+"' ps 1 lt 1 pt "+str(pt)+" title '" + name)
    i=i+2
    pt=pt+1
    ptr = ptr + 1
