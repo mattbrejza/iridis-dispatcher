@@ -231,6 +231,7 @@ for run_name in run_names:
    
    target_c = float(args['c']);
    
+   unlimited = 0;
    include = 0;
    run_rename = run_name
    if (len(filter_list) == 0):
@@ -245,6 +246,8 @@ for run_name in run_names:
          i=i+1;
    
    if (include > 0):
+      if run_rename.endswith("unlimited"):
+         unlimited = 1;
       #go through and extract each snr
       for s_d in out_list:
          #look here
@@ -252,7 +255,10 @@ for run_name in run_names:
          cc = s_d['combined_complexity']
          sy = s_d['total_symbols'];
          step = s_d['combined_complexity_step']
-         index = int(target_c/step)
+         if (unlimited == 0):
+            index = int(target_c/step)
+         else:
+            index = int(100000000/step)
          if (float(sy) > 0):
             if (index >= len(cc)):
                index = len(cc)-1;
