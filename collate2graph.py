@@ -259,9 +259,9 @@ for run_name in run_names:
             index = int(target_c/step)
          else:
             index = int(100000000/step)
-         if (float(sy) > 0):
-            if (index >= len(cc)):
-               index = len(cc)-1;
+         if (index >= len(cc)):
+            index = len(cc)-1;
+         if (float(sy) > 0):            
             ser_list.append(float(cc[index])/float(sy))
             snr_list.append(this_snr)
          
