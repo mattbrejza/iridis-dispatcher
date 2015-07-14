@@ -312,7 +312,7 @@ if ('tex' in args.keys()):
    f.write(textwrap.dedent("""\
       set terminal pslatex 8
       set xlabel 'SNR (dB)'
-      set ylabel 'SER'
+      set ylabel '$E_\mathrm{b}/N_0$ (dB)'
       set logscale y
       set format y '$10^{%L}$'
       set yrange[0.00001:1]
@@ -323,6 +323,7 @@ if ('tex' in args.keys()):
       ebend = """ + str(snr_max) + """
       exist = system("[ -f eta.cfg ] && echo '1' || echo '0'") + 0
       if (exist)  load 'eta.cfg' 
+      if (exist)  set ylabel '$E_\mathrm{b}/N_0$ (dB)'
       set xrange[ebstart : ebend ]
       set arrow from capacity,0.002 to capacity,0.9 nohead
       set label 2 "Capacity bound"   at capacity-0.08,0.002 rotate left
@@ -332,7 +333,7 @@ else:
       set terminal png
       set termoptions enhanced
       set xlabel 'SNR (dB)'
-      set ylabel 'SER'
+      set ylabel '$E_\mathrm{b}/N_0$ (dB)'
       set logscale y
       set format y '10^{%L}'
       set yrange[0.00001:1]
@@ -343,6 +344,7 @@ else:
       ebend = """ + str(snr_max) + """
       exist = system("[ -f eta.cfg ] && echo '1' || echo '0'") + 0
       if (exist)  load 'eta.cfg' 
+      if (exist)  set ylabel '$E_\mathrm{b}/N_0$ (dB)'
       set xrange[ebstart : ebend ]
       set arrow from capacity,0.002 to capacity,0.9 nohead
       set label 2 "Capacity bound"   at capacity-0.08,0.002 rotate left
