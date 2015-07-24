@@ -89,10 +89,10 @@ if ('o' not in args.keys()):
    print(":(")
    exit()
    
-if ('c' not in args.keys()):
-   print_usage()
-   print(":(")
-   exit()
+#if ('c' not in args.keys()):
+#   print_usage()
+#   print(":(")
+#   exit()
 
 run_names = []
 
@@ -229,7 +229,10 @@ for run_name in run_names:
 
    print("\n\n\n\n\n")
    
-   target_c = float(args['c']);
+   if ('c' not in args.keys()):
+      target_c = -1;
+   else:
+      target_c = float(args['c']);
    
    unlimited = 0;
    include = 0;
@@ -251,24 +254,36 @@ for run_name in run_names:
       #go through and extract each snr
       for s_d in out_list:
          #look here
-         this_snr = s_d['snr']      
-         cc = s_d['combined_complexity']
-         sy = s_d['total_symbols'];
-         step = s_d['combined_complexity_step']
-         if (unlimited == 0):
-            index = int(target_c/step)
+         this_snr = s_d['snr']
+         if (target_c == -1):
+            sy = s_d['total_symbols'];
+            ers = s_d['total_symbol_errors'];
+            if (float(sy) > 0):            
+               ser_list.append(float(ers)/float(sy))
+               snr_list.append(this_snr)
+            
+            if (snr_min > float(this_snr)):
+               snr_min = this_snr
+            if ((snr_max < float(this_snr)) and (ers > 0)):
+               snr_max = this_snr
          else:
-            index = int(100000000/step)
-         if (index >= len(cc)):
-            index = len(cc)-1;
-         if (float(sy) > 0):            
-            ser_list.append(float(cc[index])/float(sy))
-            snr_list.append(this_snr)
-         
-         if (snr_min > float(this_snr)):
-            snr_min = this_snr
-         if ((snr_max < float(this_snr)) and (cc[index] > 0)):
-            snr_max = this_snr
+            cc = s_d['combined_complexity']
+            sy = s_d['total_symbols'];
+            step = s_d['combined_complexity_step']
+            if (unlimited == 0):
+               index = int(target_c/step)
+            else:
+               index = int(100000000/step)
+            if (index >= len(cc)):
+               index = len(cc)-1;
+            if (float(sy) > 0):            
+               ser_list.append(float(cc[index])/float(sy))
+               snr_list.append(this_snr)
+            
+            if (snr_min > float(this_snr)):
+               snr_min = this_snr
+            if ((snr_max < float(this_snr)) and (cc[index] > 0)):
+               snr_max = this_snr
          
       if (len(snr_list)>0):
          ser_list = [x for y, x in sorted(zip(snr_list, ser_list))]
