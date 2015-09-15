@@ -61,6 +61,7 @@ args = getoptions(sys.argv[1:])
 
 filter_list = [];
 filter_list_rename = [];
+filter_list_lt = [];
 if ('f' in args.keys()):
    if (os.path.isfile(args['f'])):
       f = open(args['f'],'r')
@@ -70,9 +71,16 @@ if ('f' in args.keys()):
             if (len(spl) == 1):
                filter_list.append(spl[0].strip().replace('-','_'))
                filter_list_rename.append(spl[0].strip())
+               filter_list_lt.append('')
             elif (len(spl) == 2):
                filter_list.append(spl[0].strip().replace('-','_'))
                filter_list_rename.append(spl[1].strip())
+               filter_list_lt.append('')
+            elif (len(spl) == 3):
+               filter_list.append(spl[0].strip().replace('-','_'))
+               filter_list_rename.append(spl[1].strip())
+               filter_list_lt.append(spl[2].strip())
+               
    else:
       print("filter file not found")
       exit()
@@ -108,6 +116,7 @@ snr_lists = []
 ser_lists = []
 run_list = []
 rename_list = []
+lt_list = []
 snr_min = 1000
 snr_max = -1000
 
@@ -237,6 +246,7 @@ for run_name in run_names:
    unlimited = 0;
    include = 0;
    run_rename = run_name
+   lt = ''
    if (len(filter_list) == 0):
       include = 1;
    else:
@@ -246,6 +256,7 @@ for run_name in run_names:
          if run_name.startswith(line):
             include = 1;
             run_rename = filter_list_rename[i];
+            lt = filter_list_lt[i];
          i=i+1;
    
    if (include > 0):
@@ -292,6 +303,7 @@ for run_name in run_names:
          ser_lists.append(ser_list)
          run_list.append(run_name)
          rename_list.append(run_rename)
+         lt_list.append(lt)
 
 mkdir_p(args['o'])
 f = open(args['o']+"/results_data.dat",'w')
@@ -378,30 +390,34 @@ ptr = 0
 colour = "blank"
 print(run_list)
 for run_name in run_list:
-   style = 7
+   style = '7'
    colour = "purple"
-   if "vlec" in run_name:
-      style = 6
-      colour = "yellow"
-   elif "uec" in run_name:
-      style = 5
-      colour = "orange"
-   elif "expg_cc" in run_name:
-      style = 4
-      colour = "green"
-   elif "rice_cc" in run_name:
-      style = 3
-      colour = "red"
-   elif "expg" in run_name:
-      style = 2
-      colour = "blue"
-   elif "rice" in run_name:
-      style = 1
-      colour = "black"
+   if (lt_list[ptr] == ''):
+      if "vlec" in run_name:
+         style = '6'
+         colour = "yellow"
+      elif "uec" in run_name:
+         style = '5'
+         colour = "orange"
+      elif "expg_cc" in run_name:
+         style = '4'
+         colour = "green"
+      elif "rice_cc" in run_name:
+         style = '3'
+         colour = "red"
+      elif "expg" in run_name:
+         style = '2'
+         colour = "blue"
+      elif "rice" in run_name:
+         style = '1'
+         colour = "black"
+   else:
+      style = lt_list[ptr]
    name = rename_list[ptr].replace('_','-')
    if ( i > 1 ):
       f.write("', \\\n")
-   f.write("'results_data.dat' using ($" + str(i) + "-10*log10(eta)):($"+str(i+1)+"==0) ? NaN : $"+str(i+1)+" with linespoints lc rgb'"+colour+"' ps 1 lt 1 pt "+str(pt)+" title '" + name)
+   f.write("'results_data.dat' using ($" + str(i) + "-10*log10(eta)):($"+str(i+1)+"==0) ? NaN : $"+str(i+1)+" with linespoints ls" + style + " title '" + name)
+   #lc rgb'"+colour+"' ps 1 lt 1 pt "+str(pt)+" title '" + name)
    i=i+2
    pt=pt+1
    ptr = ptr + 1
