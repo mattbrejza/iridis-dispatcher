@@ -421,12 +421,15 @@ else:
    
 f.write("plot ");
    
+display_order = sorted(range(len(lt_list)), key=lambda k: lt_list[k])
 i=1
 pt=1
 ptr = 0
 colour = "blank"
 print(run_list)
-for run_name in run_list:
+#for run_name in run_list:
+for display_index in display_order:
+   run_name = run_list[display_index]
    style = '7'
    colour = "purple"
    if (lt_list[ptr] == ''):
