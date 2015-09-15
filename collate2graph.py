@@ -67,7 +67,7 @@ if ('f' in args.keys()):
       f = open(args['f'],'r')
       for line in f:
          if (len(line)>2) and (line[0] != '#'):
-            spl = line.split(' ',1);
+            spl = line.split(' ',2);
             if (len(spl) == 1):
                filter_list.append(spl[0].strip().replace('-','_'))
                filter_list_rename.append(spl[0].strip())
