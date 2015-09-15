@@ -453,7 +453,7 @@ for run_name in run_list:
    name = rename_list[ptr].replace('_','-')
    if ( i > 1 ):
       f.write("', \\\n")
-   f.write("'results_data.dat' using ($" + str(i) + "-10*log10(eta)):($"+str(i+1)+"==0) ? NaN : $"+str(i+1)+" with linespoints ls " + style + " pi 2  title '" + name)
+   f.write("'results_data.dat' using ($" + str(i) + "-10*log10(eta)):($"+str(i+1)+"==0) ? NaN : $"+str(i+1)+" with linespoints ls " + style + " title '" + name)
    #lc rgb'"+colour+"' ps 1 lt 1 pt "+str(pt)+" title '" + name)
    i=i+2
    pt=pt+1
