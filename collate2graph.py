@@ -354,6 +354,25 @@ if ('tex' in args.keys()):
       set xrange[ebstart : ebend ]
       set arrow from capacity,0.002 to capacity,0.9 nohead
       set label 2 "Capacity bound"   at capacity-0.08,0.002 rotate left
+      
+      set style line 1 lt 1 ps 1 pi 2 pt 1 lc rgb 'black'
+      set style line 2 lt 1 ps 1 pi 2 pt 1 lc rgb 'blue'
+      set style line 3 lt 1 ps 1 pi 2 pt 1 lc rgb 'red'
+      set style line 4 lt 1 ps 1 pi 2 pt 1 lc rgb 'green'
+      set style line 5 lt 1 ps 1 pi 2 pt 1 lc rgb 'orange'
+      set style line 6 lt 1 ps 1 pi 2 pt 1 lc rgb 'yellow'
+      set style line 7 lt 1 ps 1 pi 2 pt 1 lc rgb 'purple'
+      
+      set style line 11 lt 1 ps 1 pi 2 pt 6 lc rgb 'black'    #ExpGEC
+      set style line 12 lt 1 ps 1 pi 2 pt 7 lc rgb 'black'    #ExpGEC
+      
+      set style line 21 lt 1 ps 1 pi 2 pt 4 lc rgb 'black'    #RiceEC
+      set style line 22 lt 1 ps 1 pi 2 pt 5 lc rgb 'black'    #RiceEC
+      
+      set style line 31 lt 2 ps 1 pi 2 pt 1 lc rgb 'black'    #Expg
+      set style line 41 lt 2 ps 1 pi 2 pt 2 lc rgb 'black'    #Rice
+      set style line 51 lt 2 ps 1 pi 2 pt 3 lc rgb 'black'    #VLEC
+      
       """))
 else:
    f.write(textwrap.dedent("""\
@@ -375,6 +394,24 @@ else:
       set xrange[ebstart : ebend ]
       set arrow from capacity,0.002 to capacity,0.9 nohead
       set label 2 "Capacity bound"   at capacity-0.08,0.002 rotate left
+      
+      set style line 1 lt 1 ps 1 pi 2 pt 1 lc rgb 'black'
+      set style line 2 lt 1 ps 1 pi 2 pt 1 lc rgb 'blue'
+      set style line 3 lt 1 ps 1 pi 2 pt 1 lc rgb 'red'
+      set style line 4 lt 1 ps 1 pi 2 pt 1 lc rgb 'green'
+      set style line 5 lt 1 ps 1 pi 2 pt 1 lc rgb 'orange'
+      set style line 6 lt 1 ps 1 pi 2 pt 1 lc rgb 'yellow'
+      set style line 7 lt 1 ps 1 pi 2 pt 1 lc rgb 'purple'
+      
+      set style line 11 lt 1 ps 1 pi 2 pt 6 lc rgb 'black'    #ExpGEC
+      set style line 12 lt 1 ps 1 pi 2 pt 7 lc rgb 'black'    #ExpGEC
+      
+      set style line 21 lt 1 ps 1 pi 2 pt 4 lc rgb 'black'    #RiceEC
+      set style line 22 lt 1 ps 1 pi 2 pt 5 lc rgb 'black'    #RiceEC
+      
+      set style line 31 lt 2 ps 1 pi 2 pt 1 lc rgb 'black'    #Expg
+      set style line 41 lt 2 ps 1 pi 2 pt 2 lc rgb 'black'    #Rice
+      set style line 51 lt 2 ps 1 pi 2 pt 3 lc rgb 'black'    #VLEC
       """))
    
 if ('t' in args.keys()):
@@ -416,7 +453,7 @@ for run_name in run_list:
    name = rename_list[ptr].replace('_','-')
    if ( i > 1 ):
       f.write("', \\\n")
-   f.write("'results_data.dat' using ($" + str(i) + "-10*log10(eta)):($"+str(i+1)+"==0) ? NaN : $"+str(i+1)+" with linespoints ls" + style + " title '" + name)
+   f.write("'results_data.dat' using ($" + str(i) + "-10*log10(eta)):($"+str(i+1)+"==0) ? NaN : $"+str(i+1)+" with linespoints ls " + style + " title '" + name)
    #lc rgb'"+colour+"' ps 1 lt 1 pt "+str(pt)+" title '" + name)
    i=i+2
    pt=pt+1
