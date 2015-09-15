@@ -428,8 +428,8 @@ ptr = 0
 colour = "blank"
 print(run_list)
 #for run_name in run_list:
-for display_index in display_order:
-   run_name = run_list[display_index]
+for ptr in display_order:
+   run_name = run_list[ptr]
    style = '7'
    colour = "purple"
    if (lt_list[ptr] == ''):
@@ -460,4 +460,4 @@ for display_index in display_order:
    #lc rgb'"+colour+"' ps 1 lt 1 pt "+str(pt)+" title '" + name)
    i=i+2
    pt=pt+1
-   ptr = ptr + 1
+   #ptr = ptr + 1
