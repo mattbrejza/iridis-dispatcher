@@ -353,7 +353,7 @@ if ('tex' in args.keys()):
       if (exist)  set xlabel '$E_\mathrm{b}/N_0$ (dB)'
       set xrange[ebstart : ebend ]
       set arrow from capacity,0.002 to capacity,0.9 nohead
-      set label 2 "Capacity bound"   at capacity-0.08,0.002 rotate left
+      set label 2 "Capacity bound"   at capacity+0.08,0.002 rotate left
       
       set style line 1 lt 1 ps 1 pt 1 lc rgb 'black'
       set style line 2 lt 1 ps 1 pt 1 lc rgb 'blue'
@@ -393,7 +393,7 @@ else:
       if (exist)  set xlabel '$E_\mathrm{b}/N_0$ (dB)'
       set xrange[ebstart : ebend ]
       set arrow from capacity,0.002 to capacity,0.9 nohead
-      set label 2 "Capacity bound"   at capacity-0.08,0.002 rotate left
+      set label 2 "Capacity bound"   at capacity+0.08,0.002 rotate left
       
       set style line 1 lt 1 ps 1 pt 1 lc rgb 'black'
       set style line 2 lt 1 ps 1 pt 1 lc rgb 'blue'
