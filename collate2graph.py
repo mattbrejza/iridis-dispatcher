@@ -422,6 +422,7 @@ else:
 f.write("plot ");
    
 display_order = sorted(range(len(lt_list)), key=lambda k: lt_list[k])
+col_index = range(1,2*len(lt_list)+1)
 i=1
 pt=1
 ptr = 0
@@ -456,7 +457,7 @@ for ptr in display_order:
    name = rename_list[ptr].replace('_','-')
    if ( i > 1 ):
       f.write("', \\\n")
-   f.write("'results_data.dat' using ($" + str(i) + "-10*log10(eta)):($"+str(i+1)+"==0) ? NaN : $"+str(i+1)+" with linespoints ls " + style + " title '" + name)
+   f.write("'results_data.dat' using ($" + str(col_index[ptr*2]) + "-10*log10(eta)):($"+str(col_index[ptr*2]+1)+"==0) ? NaN : $"+str(col_index[ptr*2]+1)+" with linespoints ls " + style + " title '" + name)
    #lc rgb'"+colour+"' ps 1 lt 1 pt "+str(pt)+" title '" + name)
    i=i+2
    pt=pt+1
