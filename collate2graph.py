@@ -355,23 +355,35 @@ if ('tex' in args.keys()):
       set arrow from capacity,0.002 to capacity,0.9 nohead
       set label 2 "Capacity bound"   at capacity+0.08,0.002 rotate left
       
-      set style line 1 lt 1 ps 1 pt 1 lc rgb 'black'
-      set style line 2 lt 1 ps 1 pt 1 lc rgb 'blue'
-      set style line 3 lt 1 ps 1 pt 1 lc rgb 'red'
-      set style line 4 lt 1 ps 1 pt 1 lc rgb 'green'
-      set style line 5 lt 1 ps 1 pt 1 lc rgb 'orange'
-      set style line 6 lt 1 ps 1 pt 1 lc rgb 'yellow'
-      set style line 7 lt 1 ps 1 pt 1 lc rgb 'purple'
+      set style line 1 lt 1 ps 1 pt 1
+      set style line 2 lt 1 ps 1 pt 1
+      set style line 3 lt 1 ps 1 pt 1
+      set style line 4 lt 1 ps 1 pt 1
+      set style line 5 lt 1 ps 1 pt 1
+      set style line 6 lt 1 ps 1 pt 1
+      set style line 7 lt 1 ps 1 pt 1
       
-      set style line 11 lt 1 ps 1 pt 6 lc rgb 'black'    #ExpGEC
-      set style line 12 lt 1 ps 1 pt 7 lc rgb 'black'    #ExpGEC
+      set style line 11 lt 1 ps 1 pt 6    #ExpGEC
+      set style line 12 lt 1 ps 1 pt 7    #ExpGEC
+      set style line 13 lt 1 ps 1 pt 8    #ExpGEC
+      set style line 14 lt 1 ps 1 pt 9    #ExpGEC
+      set style line 15 lt 1 ps 1 pt 5    #ExpGEC
       
-      set style line 21 lt 1 ps 1 pt 4 lc rgb 'black'    #RiceEC
-      set style line 22 lt 1 ps 1 pt 5 lc rgb 'black'    #RiceEC
+      set style line 21 lt 1 ps 1 pt 4    #RiceEC
+      set style line 22 lt 1 ps 1 pt 5    #RiceEC
+      set style line 23 lt 1 ps 1 pt 1    #RiceEC
+      set style line 24 lt 1 ps 1 pt 2    #RiceEC
+      set style line 25 lt 1 ps 1 pt 3    #RiceEC
       
-      set style line 31 lt 2 ps 1 pt 1 lc rgb 'black'    #Expg
-      set style line 41 lt 2 ps 1 pt 2 lc rgb 'black'    #Rice
-      set style line 51 lt 2 ps 1 pt 3 lc rgb 'black'    #VLEC
+      set style line 31 lt 2 ps 1 pt 1    #Expg
+      set style line 32 lt 2 ps 1 pt 2    #Expg
+      set style line 33 lt 2 ps 1 pt 3    #Expg
+      set style line 34 lt 2 ps 1 pt 4    #Expg
+      set style line 41 lt 2 ps 1 pt 2    #Rice
+      set style line 42 lt 2 ps 1 pt 3    #Rice
+      set style line 43 lt 2 ps 1 pt 4    #Rice
+      set style line 44 lt 2 ps 1 pt 5    #Rice
+      set style line 51 lt 2 ps 1 pt 3    #VLEC
       
       """))
 else:
@@ -395,23 +407,35 @@ else:
       set arrow from capacity,0.002 to capacity,0.9 nohead
       set label 2 "Capacity bound"   at capacity+0.08,0.002 rotate left
       
-      set style line 1 lt 1 ps 1 pt 1 lc rgb 'black'
-      set style line 2 lt 1 ps 1 pt 1 lc rgb 'blue'
-      set style line 3 lt 1 ps 1 pt 1 lc rgb 'red'
-      set style line 4 lt 1 ps 1 pt 1 lc rgb 'green'
-      set style line 5 lt 1 ps 1 pt 1 lc rgb 'orange'
-      set style line 6 lt 1 ps 1 pt 1 lc rgb 'yellow'
-      set style line 7 lt 1 ps 1 pt 1 lc rgb 'purple'
+      set style line 1 lt 1 ps 1 pt 1
+      set style line 2 lt 1 ps 1 pt 1
+      set style line 3 lt 1 ps 1 pt 1
+      set style line 4 lt 1 ps 1 pt 1
+      set style line 5 lt 1 ps 1 pt 1
+      set style line 6 lt 1 ps 1 pt 1
+      set style line 7 lt 1 ps 1 pt 1
       
-      set style line 11 lt 1 ps 1 pt 6 lc rgb 'black'    #ExpGEC
-      set style line 12 lt 1 ps 1 pt 7 lc rgb 'black'    #ExpGEC
+      set style line 11 lt 1 ps 1 pt 6    #ExpGEC
+      set style line 12 lt 1 ps 1 pt 7    #ExpGEC
+      set style line 13 lt 1 ps 1 pt 8    #ExpGEC
+      set style line 14 lt 1 ps 1 pt 9    #ExpGEC
+      set style line 15 lt 1 ps 1 pt 5    #ExpGEC
       
-      set style line 21 lt 1 ps 1 pt 4 lc rgb 'black'    #RiceEC
-      set style line 22 lt 1 ps 1 pt 5 lc rgb 'black'    #RiceEC
+      set style line 21 lt 1 ps 1 pt 4    #RiceEC
+      set style line 22 lt 1 ps 1 pt 5    #RiceEC
+      set style line 23 lt 1 ps 1 pt 1    #RiceEC
+      set style line 24 lt 1 ps 1 pt 2    #RiceEC
+      set style line 25 lt 1 ps 1 pt 3    #RiceEC
       
-      set style line 31 lt 2 ps 1 pt 1 lc rgb 'black'    #Expg
-      set style line 41 lt 2 ps 1 pt 2 lc rgb 'black'    #Rice
-      set style line 51 lt 2 ps 1 pt 3 lc rgb 'black'    #VLEC
+      set style line 31 lt 2 ps 1 pt 1    #Expg
+      set style line 32 lt 2 ps 1 pt 2    #Expg
+      set style line 33 lt 2 ps 1 pt 3    #Expg
+      set style line 34 lt 2 ps 1 pt 4    #Expg
+      set style line 41 lt 2 ps 1 pt 2    #Rice
+      set style line 42 lt 2 ps 1 pt 3    #Rice
+      set style line 43 lt 2 ps 1 pt 4    #Rice
+      set style line 44 lt 2 ps 1 pt 5    #Rice
+      set style line 51 lt 2 ps 1 pt 3    #VLEC
       """))
    
 if ('t' in args.keys()):
@@ -427,12 +451,16 @@ i=1
 pt=1
 ptr = 0
 colour = "blank"
+expgcc_style = 31;
+ricecc_style = 41;
+expgec_style = 11;
+riceec_style = 21;
 print(run_list)
 #for run_name in run_list:
 for ptr in display_order:
    run_name = run_list[ptr]
    style = '7'
-   colour = "purple"
+   colour = "black"
    if (lt_list[ptr] == ''):
       if "vlec" in run_name:
          style = '6'
@@ -441,23 +469,27 @@ for ptr in display_order:
          style = '5'
          colour = "orange"
       elif "expg_cc" in run_name:
-         style = '4'
+         style = (expgcc_style);
+         expgcc_style++;
          colour = "green"
       elif "rice_cc" in run_name:
-         style = '3'
+         style = (ricecc_style);
+         ricecc_style++;
          colour = "red"
       elif "expg" in run_name:
-         style = '2'
+         style = (expgec_style);
+         expgec_style++;
          colour = "blue"
       elif "rice" in run_name:
-         style = '1'
+         style = (riceec_style);
+         riceec_style++;
          colour = "black"
    else:
       style = lt_list[ptr]
    name = rename_list[ptr].replace('_','-')
    if ( i > 1 ):
       f.write("', \\\n")
-   f.write("'results_data.dat' using ($" + str(col_index[ptr*2]) + "-10*log10(eta)):($"+str(col_index[ptr*2]+1)+"==0) ? NaN : $"+str(col_index[ptr*2]+1)+" with linespoints ls " + style + " title '" + name)
+   f.write("'results_data.dat' using ($" + str(col_index[ptr*2]) + "-10*log10(eta)):($"+str(col_index[ptr*2]+1)+"==0) ? NaN : $"+str(col_index[ptr*2]+1)+" with linespoints ls " + style + " lc rgb '" + colour + "' title '" + name)
    #lc rgb'"+colour+"' ps 1 lt 1 pt "+str(pt)+" title '" + name)
    i=i+2
    pt=pt+1
