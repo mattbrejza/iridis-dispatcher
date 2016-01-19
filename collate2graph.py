@@ -335,12 +335,20 @@ f.close()
 #write gnuplot file
 f = open(args['o']+"/results_run.gp",'w') 
 
-uec_colour = 'orange';
-rice_colour = 'black';
-expg_colour = 'blue';
-ricecc_colour = 'red';
-vlec_colour = 'yellow';
-expgcc_colour = 'green';
+if ('bw' in args.keys()):
+   uec_colour = 'black';
+   rice_colour = 'black';
+   expg_colour = 'black';
+   ricecc_colour = 'black';
+   vlec_colour = 'black';
+   expgcc_colour = 'black';
+else:
+   uec_colour = 'orange';
+   rice_colour = 'black';
+   expg_colour = 'blue';
+   ricecc_colour = 'red';
+   vlec_colour = 'yellow';
+   expgcc_colour = 'green';
 
 if ('tex' in args.keys()):
    f.write(textwrap.dedent("""\
