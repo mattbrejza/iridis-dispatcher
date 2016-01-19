@@ -354,7 +354,7 @@ if ('tex' in args.keys()):
    f.write(textwrap.dedent("""\
       set terminal pslatex 8
       set xlabel 'SNR (dB)'
-      set ylabel 'SER' offset 1,0
+      set ylabel 'SER' offset 5,0
       set logscale y
       set format y '$10^{%L}$'
       set yrange[0.00001:1]
