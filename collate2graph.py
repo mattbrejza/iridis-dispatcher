@@ -267,7 +267,10 @@ for run_name in run_names:
          #look here
          this_snr = s_d['snr']
          if (target_c == -1):
-            sy = s_d['total_symbols'];
+            if ('ber' in args.keys()):
+               sy = s_d['total_bits'];
+            else:
+               sy = s_d['total_symbols'];
             ers = s_d['total_symbol_errors'];
             if (float(sy) > 0):            
                ser_list.append(float(ers)/float(sy))
@@ -279,7 +282,10 @@ for run_name in run_names:
                snr_max = this_snr
          else:
             cc = s_d['combined_complexity']
-            sy = s_d['total_symbols'];
+            if ('ber' in args.keys()):
+               sy = s_d['total_bits'];
+            else:
+               sy = s_d['total_symbols'];
             step = s_d['combined_complexity_step']
             if (unlimited == 0):
                index = int(target_c/step)
@@ -350,11 +356,17 @@ else:
    vlec_colour = 'yellow';
    expgcc_colour = 'green';
 
+
+if ('ber' in args.keys()):
+   y_text = 'BER'
+else:
+   y_text = 'SER'
+   
 if ('tex' in args.keys()):
    f.write(textwrap.dedent("""\
       set terminal pslatex 8
       set xlabel 'SNR (dB)'
-      set ylabel 'SER' offset 5,0
+      set ylabel '""" + y_text + """' offset 5,0
       set logscale y
       set format y '$10^{%L}$'
       set yrange[0.00001:1]
@@ -406,7 +418,7 @@ else:
       set terminal png
       set termoptions enhanced
       set xlabel 'SNR (dB)'
-      set ylabel 'SER' offset 1,0
+      set ylabel '""" + y_text + """' offset 1,0
       set logscale y
       set format y '10^{%L}'
       set yrange[0.00001:1]
